@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShopApp.Models;
-using ShopApp.Services;
 
 namespace ShopApp.Controllers
 {
@@ -12,7 +10,7 @@ namespace ShopApp.Controllers
 
         public ProductController(IProductService productService)
         {
-            _productService= productService;
+            _productService = productService;
         }
 
         [HttpGet]
