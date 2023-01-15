@@ -4,6 +4,7 @@ global using ShopApp.Services;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(options => 
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IProductService, ProductService>();  
 
 var app = builder.Build();
 
