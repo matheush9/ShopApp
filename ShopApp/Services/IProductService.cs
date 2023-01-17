@@ -1,11 +1,14 @@
 ﻿namespace ShopApp.Services
+﻿using ShopApp.Dtos.Product;
+
+namespace ShopApp.Services
 {
     public interface IProductService
     {
-        Task<List<Product>> GetAllProducts();
-        Task<Product> GetProductById(int id);
-        Task<Product> AddProduct(Product newProduct);
-        Task<Product> UpdateProduct(int id, Product newProduct);
-        Task<Product> DeleteProduct(int id);
+        Task<List<GetProductResponseDto>> GetAllProducts();
+        Task<GetProductResponseDto> GetProductById(int id);
+        Task<GetProductResponseDto> AddProduct(AddProductRequestDto newProduct);
+        Task<GetProductResponseDto> UpdateProduct(int id, AddProductRequestDto newProduct);
+        Task<GetProductResponseDto> DeleteProduct(int id);
     }
 }

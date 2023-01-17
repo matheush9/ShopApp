@@ -1,5 +1,6 @@
 ﻿using ShopApp.Data;
 using Microsoft.EntityFrameworkCore;
+using ShopApp.Dtos.Product;
 
 namespace ShopApp.Services
 {
@@ -12,26 +13,26 @@ namespace ShopApp.Services
             _context = context;  
         }
 
-        public async Task<Product> GetProductById(int id)
+        public async Task<GetProductResponseDto> GetProductById(int id)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
             return product;
         }
 
-        public async Task<List<Product>> GetAllProducts()
+        public async Task<List<GetProductResponseDto>> GetAllProducts()
         {
             var products = await _context.Products.ToListAsync();
             return products;
         }
 
-        public async Task<Product> AddProduct(Product newProduct)
+        public async Task<GetProductResponseDto> AddProduct(AddProductRequestDto newProduct)
         {
           _context.Products.Add(newProduct);
           await _context.SaveChangesAsync();
           return newProduct;
         }
 
-        public async Task<Product> DeleteProduct(int id)
+        public async Task<GetProductResponseDto> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -44,7 +45,7 @@ namespace ShopApp.Services
             return product;
         }
 
-        public async Task<Product> UpdateProduct(int id, Product newProduct)
+        public async Task<GetProductResponseDto> UpdateProduct(int id, AddProductRequestDto newProduct)
         {
             var product = await _context.Products.FindAsync(id);
 
