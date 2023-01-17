@@ -15,14 +15,14 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetProductResponseDto>>> GetProducts()
+        public async Task<ActionResult<ServiceResponse<List<GetProductResponseDto>>>> GetProducts()
         {
             return Ok(await _productService.GetAllProducts());
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<GetProductResponseDto>> GetProduct([FromRoute] int id)
+        public async Task<ActionResult<ServiceResponse<GetProductResponseDto>>> GetProduct([FromRoute] int id)
         {
             var product = await _productService.GetProductById(id);
 
@@ -35,14 +35,14 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetProductResponseDto>> AddProduct([FromBody] AddProductRequestDto newProduct)
+        public async Task<ActionResult<ServiceResponse<GetProductResponseDto>>> AddProduct([FromBody] AddProductRequestDto newProduct)
         {
             return Ok(await _productService.AddProduct(newProduct));
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult<GetProductResponseDto>> DeleteProduct([FromRoute] int id)
+        public async Task<ActionResult<ServiceResponse<GetProductResponseDto>>> DeleteProduct([FromRoute] int id)
         {
             var product = await _productService.DeleteProduct(id);
 
@@ -56,7 +56,7 @@ namespace ShopApp.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<GetProductResponseDto>> UpdateProduct([FromRoute] int id, AddProductRequestDto newProduct)
+        public async Task<ActionResult<ServiceResponse<GetProductResponseDto>>> UpdateProduct([FromRoute] int id, AddProductRequestDto newProduct)
         {
             var product = await _productService.UpdateProduct(id, newProduct);
 

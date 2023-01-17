@@ -13,27 +13,33 @@ namespace ShopApp.Services
             _context = context;  
         }
 
-        public async Task<GetProductResponseDto> GetProductById(int id)
+        public async Task<ServiceResponse<GetProductResponseDto>> GetProductById(int id)
         {
+            var serviceResponse = new ServiceResponse<GetProductResponseDto>(); 
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            return product;
+            serviceResponse.Data = product;
+            return serviceResponse;
         }
 
-        public async Task<List<GetProductResponseDto>> GetAllProducts()
+        public async Task<ServiceResponse<List<GetProductResponseDto>>> GetAllProducts()
         {
+            var serviceResponse = new ServiceResponse<List<GetProductResponseDto>>();
             var products = await _context.Products.ToListAsync();
-            return products;
+            serviceResponse.Data = products;
+            return serviceResponse;
         }
 
-        public async Task<GetProductResponseDto> AddProduct(AddProductRequestDto newProduct)
+        public async Task<ServiceResponse<GetProductResponseDto>> AddProduct(AddProductRequestDto newProduct)
         {
+          var serviceResponse = new ServiceResponse<GetProductResponseDto>();
           _context.Products.Add(newProduct);
           await _context.SaveChangesAsync();
-          return newProduct;
+          return serviceResponse;
         }
 
-        public async Task<GetProductResponseDto> DeleteProduct(int id)
+        public async Task<ServiceResponse<GetProductResponseDto>> DeleteProduct(int id)
         {
+            var serviceResponse = new ServiceResponse<GetProductResponseDto>();
             var product = await _context.Products.FindAsync(id);
 
             if (product != null)
@@ -42,11 +48,13 @@ namespace ShopApp.Services
                 await _context.SaveChangesAsync();
             }
 
-            return product;
+            serviceResponse.Data = product;
+            return serviceResponse;
         }
 
-        public async Task<GetProductResponseDto> UpdateProduct(int id, AddProductRequestDto newProduct)
+        public async Task<ServiceResponse<GetProductResponseDto>> UpdateProduct(int id, AddProductRequestDto newProduct)
         {
+            var serviceResponse = new ServiceResponse<GetProductResponseDto>();
             var product = await _context.Products.FindAsync(id);
 
             if (product != null)
@@ -59,7 +67,9 @@ namespace ShopApp.Services
 
                 await _context.SaveChangesAsync();
             }
-            return product;
+
+            serviceResponse.Data = product;
+            return serviceResponse;
         }
     }
 }
