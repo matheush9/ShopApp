@@ -26,9 +26,9 @@ namespace ShopApp.Controllers
         {
             var product = await _productService.GetProductById(id);
 
-            if (product == null)
+            if (product.Success is false)
             {
-                return NotFound();
+                return NotFound(product);
             }
 
             return Ok(product);

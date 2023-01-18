@@ -19,8 +19,22 @@ namespace ShopApp.Services
         public async Task<ServiceResponse<GetProductResponseDto>> GetProductById(int id)
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            serviceResponse.Data = _mapper.Map<GetProductResponseDto>(product);
+
+            try
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+                serviceResponse.Data = _mapper.Map<GetProductResponseDto>(product);
+
+                if (product is null)
+                {
+                    throw new ArgumentException("Product not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }
