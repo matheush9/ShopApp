@@ -10,13 +10,13 @@ namespace ShopApp.Services
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        private readonly IResponseHandler<GetProductResponseDto> _responseHandler;
 
-        public ProductService(IMapper mapper, DataContext context, IResponseHandler<GetProductResponseDto> responseHandler)
+        public DefaultResponseHandler<GetProductResponseDto> responseHandler = new();
+
+        public ProductService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
             _context = context;
-            _responseHandler = responseHandler;
         }
 
         public async Task<ServiceResponse<GetProductResponseDto>> GetProductById(int id)
@@ -25,17 +25,18 @@ namespace ShopApp.Services
 
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
             serviceResponse.Data = _mapper.Map<GetProductResponseDto>(product);
-            
-            return _responseHandler.SetResponse(serviceResponse);
+
+            return responseHandler.SetResponse(serviceResponse);
         }
 
         public async Task<ServiceResponse<List<GetProductResponseDto>>> GetAllProducts()
         {
             var serviceResponse = new ServiceResponse<List<GetProductResponseDto>>();
+            var responseHandler = new DefaultResponseHandler<List<GetProductResponseDto>>();
             serviceResponse.Data = await _context.Products.Select(p => _mapper.Map<GetProductResponseDto>(p)).ToListAsync();
 
-            return _responseHandler.SetResponse(serviceResponse);
-        }
+            return responseHandler.SetResponse(serviceResponse);
+        }   
 
         public async Task<ServiceResponse<GetProductResponseDto>> AddProduct(AddProductRequestDto newProduct)
         {
@@ -43,7 +44,7 @@ namespace ShopApp.Services
             _context.Products.Add(_mapper.Map<Product>(newProduct));            
             await _context.SaveChangesAsync();
 
-            return _responseHandler.SetResponse(serviceResponse);
+            return responseHandler.SetResponse(serviceResponse);
         }
 
         public async Task<ServiceResponse<GetProductResponseDto>> DeleteProduct(int id)
@@ -59,7 +60,7 @@ namespace ShopApp.Services
 
             serviceResponse.Data = _mapper.Map<GetProductResponseDto>(product);
 
-            return _responseHandler.SetResponse(serviceResponse);
+            return responseHandler.SetResponse(serviceResponse);
         }
 
         public async Task<ServiceResponse<GetProductResponseDto>> UpdateProduct(int id, AddProductRequestDto newProduct)
@@ -80,7 +81,7 @@ namespace ShopApp.Services
 
             serviceResponse.Data = _mapper.Map<GetProductResponseDto>(product);
 
-            return _responseHandler.SetResponse(serviceResponse);
+            return responseHandler.SetResponse(serviceResponse);
         }
     }
 }

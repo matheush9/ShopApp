@@ -7,7 +7,6 @@ namespace ShopApp.Mapper
     {
         public ProductMapperProfile()
         {
-            //Product
             CreateMap<Product, GetProductResponseDto>();
             CreateMap<Product, AddProductRequestDto>();
             CreateMap<AddProductRequestDto, Product>();
