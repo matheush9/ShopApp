@@ -17,7 +17,12 @@ namespace ShopApp.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<GetProductResponseDto>>>> GetProducts()
         {
-            return Ok(await _productService.GetAllProducts());
+            var products = await _productService.GetAllProducts();
+
+            if (products.Success is false)
+                return NotFound(products);
+
+            return Ok(products);
         }
 
         [HttpGet]
@@ -27,9 +32,7 @@ namespace ShopApp.Controllers
             var product = await _productService.GetProductById(id);
 
             if (product.Success is false)
-            {
                 return NotFound(product);
-            }
 
             return Ok(product);
         }
@@ -37,7 +40,12 @@ namespace ShopApp.Controllers
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<GetProductResponseDto>>> AddProduct([FromBody] AddProductRequestDto newProduct)
         {
-            return Ok(await _productService.AddProduct(newProduct));
+            var addedProduct = await _productService.AddProduct(newProduct);
+
+            if (addedProduct.Success is false)
+                return NotFound(addedProduct);
+
+            return Ok(addedProduct);
         }
 
         [HttpDelete]
@@ -46,12 +54,10 @@ namespace ShopApp.Controllers
         {
             var product = await _productService.DeleteProduct(id);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (product.Success is false)
+                return NotFound(product);
 
-            return Ok();
+            return Ok(product);
         }
 
         [HttpPut]
@@ -60,10 +66,8 @@ namespace ShopApp.Controllers
         {
             var product = await _productService.UpdateProduct(id, newProduct);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (product.Success is false)
+                return NotFound(product);
 
             return Ok(product);
         }
