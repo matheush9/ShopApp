@@ -41,10 +41,11 @@ namespace ShopApp.Services
         public async Task<ServiceResponse<GetProductResponseDto>> AddProduct(AddProductRequestDto newProduct)
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
+
             _context.Products.Add(_mapper.Map<Product>(newProduct));            
             await _context.SaveChangesAsync();
 
-            return responseHandler.SetResponse(serviceResponse);
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<GetProductResponseDto>> DeleteProduct(int id)

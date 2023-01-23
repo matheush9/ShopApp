@@ -15,7 +15,6 @@ namespace ShopApp.Models
         [Required]
         public string Country { get; set; }
         public string ImageUrl { get; set; }
-        public Rating Rating { get; set; }  
-
+        public List<Product> Product { get; set; }
     }
 }

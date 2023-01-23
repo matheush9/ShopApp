@@ -10,5 +10,6 @@ namespace ShopApp.Data
         }
 
         public DbSet<Product> Products => Set<Product>();
+        public DbSet<Store> Stores => Set<Store>();
     }
 }
