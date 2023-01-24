@@ -8,5 +8,6 @@
         public decimal Price { get; set; }
         public decimal PriceTotal { get; set; }
         public string ImageUrl { get; set; }
+        public int StoreId { get; set; }
     }
 }
