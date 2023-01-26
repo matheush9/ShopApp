@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShopApp.Dtos.Product;
+using ShopApp.Dtos.Products;
+using ShopApp.Services.ProductServices;
 
 namespace ShopApp.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace ShopApp.Dtos.Product
+﻿namespace ShopApp.Dtos.Products
 {
     public class GetProductResponseDto
     {

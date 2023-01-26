@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShopApp.Dtos.Product
+namespace ShopApp.Dtos.Products
 {
     public class AddProductRequestDto
     {

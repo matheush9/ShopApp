@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
-using ShopApp.Dtos.Product;
+using ShopApp.Dtos.Products;
 using ShopApp.Services.ResponseHandlers;
 
-namespace ShopApp.Services
+namespace ShopApp.Services.ProductServices
 {
     public class ProductService : IProductService
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ShopApp.Dtos.Product;
+using ShopApp.Dtos.Products;
 
 namespace ShopApp.Mapper
 {

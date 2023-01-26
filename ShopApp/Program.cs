@@ -1,8 +1,8 @@
 global using ShopApp.Models;
-global using ShopApp.Services;
 
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
+using ShopApp.Services.ProductServices;
 
 var builder = WebApplication.CreateBuilder(args);
 

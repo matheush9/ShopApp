@@ -1,6 +1,6 @@
-﻿using ShopApp.Dtos.Product;
+﻿using ShopApp.Dtos.Products;
 
-namespace ShopApp.Services
+namespace ShopApp.Services.ProductServices
 {
     public interface IProductService
     {
