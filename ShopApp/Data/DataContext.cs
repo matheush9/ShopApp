@@ -14,7 +14,8 @@ namespace ShopApp.Data
         public DbSet<Item> Items => Set<Item>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<Cart> Carts => Set<Cart>();
-
+        public DbSet<Stock> Stocks => Set<Stock>();
+ 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
@@ -30,6 +31,11 @@ namespace ShopApp.Data
                 .HasMany(i => i.Items)
                 .WithOne(c => c.Cart)
                 .Metadata.DeleteBehavior = DeleteBehavior.Restrict;
+
+            modelBuilder.Entity<Store>()
+                .HasMany(s => s.Stocks)
+                .WithOne(s => s.Store)
+                .Metadata.DeleteBehavior = DeleteBehavior.Restrict; 
         }
     }
 }
