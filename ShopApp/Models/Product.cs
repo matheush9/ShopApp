@@ -22,6 +22,6 @@ namespace ShopApp.Models
         public string ImageUrl { get; set; }  
         public Store Store { get; set; }
         public int StoreId { get; set; } 
-
+        public List<Item> Items { get; set; }
     }
 }
