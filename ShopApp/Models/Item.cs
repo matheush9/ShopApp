@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopApp.Models
 {
@@ -13,5 +15,8 @@ namespace ShopApp.Models
         public int CartId { get; set; }
         public Order Order { get; set; }
         public int OrderId { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal PriceTotal { get; set; }
     }
 }
