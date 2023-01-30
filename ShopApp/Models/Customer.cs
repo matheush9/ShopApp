@@ -10,6 +10,6 @@ namespace ShopApp.Models
         [Required]
         public string Name { get; set; }
         public List<Order> Orders { get; set; }
+        public Cart Cart { get; set; }  
     }
-
 }
