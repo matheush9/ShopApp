@@ -11,10 +11,12 @@ namespace ShopApp.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        [Required]
         public string Country { get; set; }
         public string ImageUrl { get; set; }
-        public List<Product> Products { get; set; } 
+
+        //Relationships
+        public List<Product> Products { get; set; }
+
         public List<Stock> Stocks { get; set; }
     }
 }

@@ -9,7 +9,10 @@ namespace ShopApp.Models
 
         [Required]
         public string Name { get; set; }
+
+        //Relationships
         public List<Order> Orders { get; set; }
-        public Cart Cart { get; set; }  
+
+        public Cart Cart { get; set; }
     }
 }

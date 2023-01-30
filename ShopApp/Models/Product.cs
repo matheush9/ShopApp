@@ -15,9 +15,12 @@ namespace ShopApp.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        public string ImageUrl { get; set; }  
+        public string ImageUrl { get; set; }
+
+        //Relationships
         public Store Store { get; set; }
-        public int StoreId { get; set; } 
+        public int StoreId { get; set; }
+
         public List<Item> Items { get; set; }
     }
 }
