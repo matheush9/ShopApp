@@ -73,7 +73,6 @@ namespace ShopApp.Services.ProductServices
             {
                 product.Description = newProduct.Description;
                 product.Price = newProduct.Price;
-                product.PriceTotal = newProduct.PriceTotal;
                 product.Name = newProduct.Name;
                 product.ImageUrl = newProduct.ImageUrl;
 
