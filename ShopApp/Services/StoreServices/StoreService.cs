@@ -2,11 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Store;
+using ShopApp.Services.GenericService;
 using ShopApp.Services.ResponseHandlers;
 
 namespace ShopApp.Services.StoreServices
 {
-    public class StoreService 
+    public class StoreService : IGenericService<GetStoreResponseDto, AddStoreRequestDto>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -19,7 +20,7 @@ namespace ShopApp.Services.StoreServices
             _context = context;
         }
 
-        public async Task<ServiceResponse<GetStoreResponseDto>> GetStoreById(int id)
+        public async Task<ServiceResponse<GetStoreResponseDto>> GetById(int id)
         {
             var serviceResponse = new ServiceResponse<GetStoreResponseDto>();
 
@@ -29,7 +30,7 @@ namespace ShopApp.Services.StoreServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<List<GetStoreResponseDto>>> GetAllStores()
+        public async Task<ServiceResponse<List<GetStoreResponseDto>>> GetAll()
         {
             var serviceResponse = new ServiceResponse<List<GetStoreResponseDto>>();
             var responseHandler = new DefaultResponseHandler<List<GetStoreResponseDto>>();
@@ -38,7 +39,7 @@ namespace ShopApp.Services.StoreServices
             return responseHandler.SetResponse(serviceResponse);
         }   
 
-        public async Task<ServiceResponse<GetStoreResponseDto>> AddStore(AddStoreRequestDto newStore)
+        public async Task<ServiceResponse<GetStoreResponseDto>> Add(AddStoreRequestDto newStore)
         {
             var serviceResponse = new ServiceResponse<GetStoreResponseDto>();
 
@@ -48,7 +49,7 @@ namespace ShopApp.Services.StoreServices
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStoreResponseDto>> DeleteStore(int id)
+        public async Task<ServiceResponse<GetStoreResponseDto>> Delete(int id)
         {
             var serviceResponse = new ServiceResponse<GetStoreResponseDto>();
             var store = await _context.Stores.FindAsync(id);
@@ -64,7 +65,7 @@ namespace ShopApp.Services.StoreServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<GetStoreResponseDto>> UpdateStore(int id, AddStoreRequestDto newStore)
+        public async Task<ServiceResponse<GetStoreResponseDto>> Update(int id, AddStoreRequestDto newStore)
         {
             var serviceResponse = new ServiceResponse<GetStoreResponseDto>();
             var store = await _context.Stores.FindAsync(id);

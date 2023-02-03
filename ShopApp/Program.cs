@@ -3,6 +3,7 @@ global using ShopApp.Models;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
+using ShopApp.Dtos.Store;
 using ShopApp.Services.GenericService;
 using ShopApp.Services.ProductServices;
 using ShopApp.Services.StoreServices;
@@ -17,7 +18,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IGenericService<GetProductResponseDto, AddProductRequestDto>, ProductService>();
-builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<IGenericService<GetStoreResponseDto, AddStoreRequestDto>, StoreService>();
 
 var app = builder.Build();
 
