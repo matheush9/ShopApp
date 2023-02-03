@@ -6,7 +6,7 @@ using ShopApp.Services.ResponseHandlers;
 
 namespace ShopApp.Services.StoreServices
 {
-    public class StoreService : IStoreService
+    public class StoreService 
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
