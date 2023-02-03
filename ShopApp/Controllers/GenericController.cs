@@ -5,7 +5,7 @@ namespace ShopApp.Controllers
 {
     public class GenericController<T, T2>: Controller where T : class
     {
-        private IGenericService<T, T2> _genericService;
+        private readonly IGenericService<T, T2> _genericService;
 
         public GenericController(IGenericService<T, T2> genericService)
         {
@@ -13,35 +13,61 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet]
-        public Task<ServiceResponse<List<T>>> GetAll()
+        public async Task<ActionResult<ServiceResponse<List<T>>>> GetAll()
         {
-            return _genericService.GetAll();
+            var entityList = await _genericService.GetAll();
+
+            if (entityList.Success is false)
+                return NotFound(entityList);
+
+            return Ok(entityList);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public Task<ServiceResponse<T>> GetById(int id)
+        public async Task<ActionResult<ServiceResponse<T>>> GetById([FromRoute] int id)
         {
-            return _genericService.GetById(id);
+            var entity = await _genericService.GetById(id);
+
+            if (entity.Success is false)
+                return NotFound(entity);
+
+            return Ok(entity);
         }
 
         [HttpPost]
-        public Task<ServiceResponse<T>> Add(T2 requestEntity)
+        public async Task<ActionResult<ServiceResponse<T>>> Add([FromBody] T2 newEntity)
         {
-            return _genericService.Add(requestEntity);
+            var addedEntity = await _genericService.Add(newEntity);
+
+            if (addedEntity.Success is false)
+                return NotFound(addedEntity);
+
+            return Ok(addedEntity);
+        }
+
+        [HttpDelete]        
+        [Route("{id}")]
+        public async Task<ActionResult<ServiceResponse<T>>> Delete([FromRoute] int id)
+        {
+            var entity = await _genericService.Delete(id);
+
+            if (entity.Success is false)
+                return NotFound(entity);
+
+            return Ok(entity);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public Task<ServiceResponse<T>> Update(int id, T2 requestEntity)
+        public async Task<ActionResult<ServiceResponse<T>>> Update([FromRoute] int id, T2 newEntity)
         {
-            return _genericService.Update(id, requestEntity);
-        }
+            var entity = await _genericService.Update(id, newEntity);
 
-        [HttpDelete]
-        public Task<ServiceResponse<T>> Delete(int id)
-        {
-            return _genericService.Delete(id);
+            if (entity.Success is false)
+                return NotFound(entity);
+
+            return Ok(entity);
         }
     }
 }
