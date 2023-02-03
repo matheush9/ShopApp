@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IGenericService<GetProductResponseDto, AddProductRequestDto>, ProductServiceTest>();
+builder.Services.AddScoped<IGenericService<GetProductResponseDto, AddProductRequestDto>, ProductService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 
 var app = builder.Build();
