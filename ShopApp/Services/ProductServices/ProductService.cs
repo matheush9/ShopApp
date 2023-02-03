@@ -2,24 +2,25 @@
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
+using ShopApp.Services.GenericService;
 using ShopApp.Services.ResponseHandlers;
 
 namespace ShopApp.Services.ProductServices
 {
-    public class ProductService : IProductService
+    public class ProductService : IGenericService<GetProductResponseDto, AddProductRequestDto>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
         public DefaultResponseHandler<GetProductResponseDto> responseHandler = new();
 
-        public ProductService(IMapper mapper, DataContext context)
+        public ProductService(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<ServiceResponse<GetProductResponseDto>> GetProductById(int id)
+        public async Task<ServiceResponse<GetProductResponseDto>> GetById(int id)
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
 
@@ -29,26 +30,25 @@ namespace ShopApp.Services.ProductServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<List<GetProductResponseDto>>> GetAllProducts()
+        public async Task<ServiceResponse<List<GetProductResponseDto>>> GetAll()
         {
             var serviceResponse = new ServiceResponse<List<GetProductResponseDto>>();
             var responseHandler = new DefaultResponseHandler<List<GetProductResponseDto>>();
             serviceResponse.Data = await _context.Products.Select(p => _mapper.Map<GetProductResponseDto>(p)).ToListAsync();
-
             return responseHandler.SetResponse(serviceResponse);
-        }   
+        }
 
-        public async Task<ServiceResponse<GetProductResponseDto>> AddProduct(AddProductRequestDto newProduct)
+        public async Task<ServiceResponse<GetProductResponseDto>> Add(AddProductRequestDto newProduct)
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
 
-            _context.Products.Add(_mapper.Map<Product>(newProduct));            
+            _context.Products.Add(_mapper.Map<Product>(newProduct));
             await _context.SaveChangesAsync();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetProductResponseDto>> DeleteProduct(int id)
+        public async Task<ServiceResponse<GetProductResponseDto>> Delete(int id)
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
             var product = await _context.Products.FindAsync(id);
@@ -64,7 +64,7 @@ namespace ShopApp.Services.ProductServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<GetProductResponseDto>> UpdateProduct(int id, AddProductRequestDto newProduct)
+        public async Task<ServiceResponse<GetProductResponseDto>> Update(int id, AddProductRequestDto newProduct)
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
             var product = await _context.Products.FindAsync(id);
