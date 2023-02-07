@@ -7,7 +7,7 @@ namespace ShopApp.Models
         [Key]
         public int Id { get; set; }
 
-        public DateTime Updated { get; set; }
+        public DateTime Updated { get; } = DateTime.Now;
 
         //Relationships
         public List<Item> Items { get; set; }
