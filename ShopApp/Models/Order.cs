@@ -9,12 +9,10 @@ namespace ShopApp.Models
         
         public string Status { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime Updated { get; set; } = DateTime.Now;
 
         //Relationships
         public List<Item> Items { get; set; }
-
-        public Store Store { get; set; }
 
         public Customer Customer { get; set; }
         public int CustomerId { get; set; }
