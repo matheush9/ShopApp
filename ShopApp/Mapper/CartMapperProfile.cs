@@ -7,7 +7,7 @@ namespace ShopApp.Mapper
     {
         public CartMapperProfile()
         {
-            CreateMap<Item, GetCartResponseDto>();
+            CreateMap<Cart, GetCartResponseDto>();
         }
     }
 }
