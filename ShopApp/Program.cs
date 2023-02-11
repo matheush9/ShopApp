@@ -13,6 +13,7 @@ using ShopApp.Services.GenericService;
 using ShopApp.Services.ItemServices;
 using ShopApp.Services.OrderServices;
 using ShopApp.Services.ProductServices;
+using ShopApp.Services.StockServices;
 using ShopApp.Services.StoreServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,7 @@ builder.Services.AddScoped<IGenericService<GetItemResponseDto, AddItemRequestDto
 builder.Services.AddScoped<IGenericService<GetCustomerResponseDto, AddCustomerRequestDto>, CustomerService>();
 builder.Services.AddScoped<IGenericService<GetOrderResponseDto, AddOrderRequestDto>, OrderService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IStockService, StockService>();
 
 var app = builder.Build();
 
