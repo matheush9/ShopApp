@@ -23,21 +23,24 @@ namespace ShopApp.Services.StockServices
         {
             var serviceResponse = new ServiceResponse<List<GetStockResponseDto>>();
             var responseHandler = new DefaultResponseHandler<List<GetStockResponseDto>>();
-            serviceResponse.Data = await _context.Stocks.Select(s => _mapper.Map<GetStockResponseDto>(s.StoreId)).ToListAsync();
+
+            var stocks = await _context.Stocks.Where(s => s.StoreId == id).ToListAsync();
+            serviceResponse.Data = stocks.Select(_mapper.Map<GetStockResponseDto>).ToList();
+
             return responseHandler.SetResponse(serviceResponse);
         }
-
+        
         public async Task<ServiceResponse<GetStockResponseDto>> GetStockByProductId(int id)
         {
             var serviceResponse = new ServiceResponse<GetStockResponseDto>();
 
-            var stock = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+            var stock = await _context.Stocks.FirstOrDefaultAsync(x => x.ProductId == id);
             serviceResponse.Data = _mapper.Map<GetStockResponseDto>(stock);
 
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<GetStockResponseDto>> UpdateStock(int id, UpdateStockRequest newStock)
+        public async Task<ServiceResponse<GetStockResponseDto>> UpdateStockByProductId(int id, UpdateStockRequest newStock)
         {
             var serviceResponse = new ServiceResponse<GetStockResponseDto>();
             var stock = await _context.Stocks.FirstOrDefaultAsync(x => x.ProductId == id);
