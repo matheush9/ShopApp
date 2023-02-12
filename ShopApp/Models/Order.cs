@@ -4,11 +4,13 @@ namespace ShopApp.Models
 {
     public class Order
     {
+        static readonly string[] OrderStatuses = {"Created, Processing, Completed"};
+
         [Key]
-        public int Id { get; set; }   
-        
-        public string Status { get; set; }
-        public DateTime Created { get; set; }
+        public int Id { get; set; }
+
+        public string Status { get; set; } = OrderStatuses[0];
+        public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Updated { get; set; } = DateTime.Now;
 
         //Relationships
