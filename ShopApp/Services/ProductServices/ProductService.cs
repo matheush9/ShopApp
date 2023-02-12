@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
@@ -27,14 +27,6 @@ namespace ShopApp.Services.ProductServices
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
             serviceResponse.Data = _mapper.Map<GetProductResponseDto>(product);
 
-            return responseHandler.SetResponse(serviceResponse);
-        }
-
-        public async Task<ServiceResponse<List<GetProductResponseDto>>> GetAll()
-        {
-            var serviceResponse = new ServiceResponse<List<GetProductResponseDto>>();
-            var responseHandler = new DefaultResponseHandler<List<GetProductResponseDto>>();
-            serviceResponse.Data = await _context.Products.Select(p => _mapper.Map<GetProductResponseDto>(p)).ToListAsync();
             return responseHandler.SetResponse(serviceResponse);
         }
 

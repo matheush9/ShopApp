@@ -30,14 +30,6 @@ namespace ShopApp.Services.OrderServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<List<GetOrderResponseDto>>> GetAll()
-        {
-            var serviceResponse = new ServiceResponse<List<GetOrderResponseDto>>();
-            var responseHandler = new DefaultResponseHandler<List<GetOrderResponseDto>>();
-            serviceResponse.Data = await _context.Orders.Select(p => _mapper.Map<GetOrderResponseDto>(p)).ToListAsync();
-            return responseHandler.SetResponse(serviceResponse);
-        }
-
         public async Task<ServiceResponse<GetOrderResponseDto>> Add(AddOrderRequestDto newOrder)
         {
             var serviceResponse = new ServiceResponse<GetOrderResponseDto>();

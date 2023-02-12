@@ -30,14 +30,6 @@ namespace ShopApp.Services.CustomerServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
-        public async Task<ServiceResponse<List<GetCustomerResponseDto>>> GetAll()
-        {
-            var serviceResponse = new ServiceResponse<List<GetCustomerResponseDto>>();
-            var responseHandler = new DefaultResponseHandler<List<GetCustomerResponseDto>>();
-            serviceResponse.Data = await _context.Customers.Select(p => _mapper.Map<GetCustomerResponseDto>(p)).ToListAsync();
-            return responseHandler.SetResponse(serviceResponse);
-        }
-
         public async Task<ServiceResponse<GetCustomerResponseDto>> Add(AddCustomerRequestDto newCustomer)
         {
             var serviceResponse = new ServiceResponse<GetCustomerResponseDto>();

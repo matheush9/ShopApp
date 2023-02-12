@@ -13,17 +13,6 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<T>>>> GetAll()
-        {
-            var entityList = await _genericService.GetAll();
-
-            if (entityList.Success is false)
-                return NotFound(entityList);
-
-            return Ok(entityList);
-        }
-
-        [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<ServiceResponse<T>>> GetById([FromRoute] int id)
         {
