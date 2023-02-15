@@ -7,5 +7,6 @@ namespace ShopApp.Services.StockServices
         Task<ServiceResponse<GetStockResponseDto>> GetStockByProductId(int id);
         Task<ServiceResponse<GetStockResponseDto>> UpdateStockByProductId(int id, UpdateStockRequest newStock);
         Task<ServiceResponse<List<GetStockResponseDto>>> GetAllStocksByStoreId(int id);
+        Task AddStock(int productId, int storeId);
     }
 }

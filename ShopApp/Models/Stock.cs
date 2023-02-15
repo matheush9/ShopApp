@@ -6,9 +6,9 @@ namespace ShopApp.Models
     {
         [Key]
         public int Id { get; set; }
-        
-        public int AvailableQuantity { get; set; }
-        public DateTime Updated { get; set; }
+
+        public int AvailableQuantity { get; set; } = 0;
+        public DateTime Updated { get; set; } 
 
         //Relationships
         public Product Product { get; set; }
@@ -16,5 +16,12 @@ namespace ShopApp.Models
 
         public Store Store { get; set; }
         public int StoreId { get; set; }
+
+        public Stock(int productId, int storeId)
+        {
+            ProductId = productId;
+            StoreId = storeId;
+            Updated = DateTime.Now;
+        }
     }
 }

@@ -40,6 +40,14 @@ namespace ShopApp.Services.StockServices
             return responseHandler.SetResponse(serviceResponse);
         }
 
+        public async Task AddStock(int productId, int storeId)
+        {
+            var stock = new Stock(productId, storeId);
+            _context.Stocks.Add(stock);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<ServiceResponse<GetStockResponseDto>> UpdateStockByProductId(int id, UpdateStockRequest newStock)
         {
             var serviceResponse = new ServiceResponse<GetStockResponseDto>();

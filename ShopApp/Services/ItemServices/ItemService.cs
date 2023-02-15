@@ -29,15 +29,7 @@ namespace ShopApp.Services.ItemServices
 
             return responseHandler.SetResponse(serviceResponse);
         }
-
-        public async Task<ServiceResponse<List<GetItemResponseDto>>> GetAll()
-        {
-            var serviceResponse = new ServiceResponse<List<GetItemResponseDto>>();
-            var responseHandler = new DefaultResponseHandler<List<GetItemResponseDto>>();
-            serviceResponse.Data = await _context.Items.Select(p => _mapper.Map<GetItemResponseDto>(p)).ToListAsync();
-            return responseHandler.SetResponse(serviceResponse);
-        }
-
+            
         public async Task<ServiceResponse<GetItemResponseDto>> Add(AddItemRequestDto newItem)
         {
             var serviceResponse = new ServiceResponse<GetItemResponseDto>();

@@ -1,9 +1,10 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
 using ShopApp.Services.GenericService;
 using ShopApp.Services.ResponseHandlers;
+using ShopApp.Services.StockServices;
 
 namespace ShopApp.Services.ProductServices
 {
@@ -11,13 +12,15 @@ namespace ShopApp.Services.ProductServices
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IStockService _stockService;
 
         public DefaultResponseHandler<GetProductResponseDto> responseHandler = new();
 
-        public ProductService(DataContext context, IMapper mapper)
+        public ProductService(DataContext context, IMapper mapper, IStockService stockService)
         {
             _mapper = mapper;
             _context = context;
+            _stockService = stockService;
         }
 
         public async Task<ServiceResponse<GetProductResponseDto>> GetById(int id)
@@ -34,9 +37,13 @@ namespace ShopApp.Services.ProductServices
         {
             var serviceResponse = new ServiceResponse<GetProductResponseDto>();
 
-            _context.Products.Add(_mapper.Map<Product>(newProduct));
+            var product = _mapper.Map<Product>(newProduct);
+            _context.Products.Add(product);
+
             await _context.SaveChangesAsync();
 
+            await _stockService.AddStock(product.Id, product.StoreId);
+                
             return serviceResponse;
         }
 
