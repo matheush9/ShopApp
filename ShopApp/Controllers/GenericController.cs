@@ -18,7 +18,7 @@ namespace ShopApp.Controllers
         {
             var entity = await _genericService.GetById(id);
 
-            if (entity.Success is false)
+            if (entity is null)
                 return NotFound(entity);
 
             return Ok(entity);
@@ -27,12 +27,8 @@ namespace ShopApp.Controllers
         [HttpPost]
         public async Task<ActionResult<T>> Add([FromBody] T2 newEntity)
         {
-            var addedEntity = await _genericService.Add(newEntity);
-
-            if (addedEntity.Success is false)
-                return NotFound(addedEntity);
-
-            return Ok(addedEntity);
+            await _genericService.Add(newEntity);
+            return Ok();
         }
 
         [HttpDelete]        
@@ -41,7 +37,7 @@ namespace ShopApp.Controllers
         {
             var entity = await _genericService.Delete(id);
 
-            if (entity.Success is false)
+            if (entity is null)
                 return NotFound(entity);
 
             return Ok(entity);
@@ -53,7 +49,7 @@ namespace ShopApp.Controllers
         {
             var entity = await _genericService.Update(id, newEntity);
 
-            if (entity.Success is false)
+            if (entity is null)
                 return NotFound(entity);
 
             return Ok(entity);

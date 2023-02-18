@@ -21,7 +21,7 @@ namespace ShopApp.Controllers
         {
             var stocks = await _stockService.GetAllStocksByStoreId(id);
 
-            if (stocks.Success is false)
+            if (stocks is null)
                 return NotFound(stocks);
 
             return Ok(stocks);
@@ -33,7 +33,7 @@ namespace ShopApp.Controllers
         {
             var stock = await _stockService.GetStockByProductId(id);
 
-            if (stock.Success is false)
+            if (stock is null)
                 return NotFound(stock);
 
             return Ok(stock);
@@ -45,7 +45,7 @@ namespace ShopApp.Controllers
         {
             var stock = await _stockService.UpdateStockByProductId(id, newStock);
 
-            if (stock.Success is false)
+            if (stock is null)
                 return NotFound(stock);
 
             return Ok(stock);
