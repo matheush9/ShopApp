@@ -17,7 +17,7 @@ namespace ShopApp.Controllers
 
         [HttpGet]
         [Route("Customer/{id}")]
-        public async Task<ActionResult<ServiceResponse<GetCartResponseDto>>> GetCart([FromRoute] int id)
+        public async Task<ActionResult<GetCartResponseDto>> GetCart([FromRoute] int id)
         {
             var cart = await _cartService.GetCartByCustomerId(id);
 

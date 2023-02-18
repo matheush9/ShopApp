@@ -4,6 +4,6 @@ namespace ShopApp.Services.CartServices
 {
     public interface ICartService
     {
-        Task<ServiceResponse<GetCartResponseDto>> GetCartByCustomerId(int id);
+        Task<GetCartResponseDto> GetCartByCustomerId(int id);
     }
 }

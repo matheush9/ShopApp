@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Customer;
 using ShopApp.Services.GenericService;
-using ShopApp.Services.ResponseHandlers;
 
 namespace ShopApp.Services.CustomerServices
 {
@@ -12,37 +12,27 @@ namespace ShopApp.Services.CustomerServices
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public DefaultResponseHandler<GetCustomerResponseDto> responseHandler = new();
-
         public CustomerService(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<ServiceResponse<GetCustomerResponseDto>> GetById(int id)
+        public async Task<GetCustomerResponseDto> GetById(int id)
         {
-            var serviceResponse = new ServiceResponse<GetCustomerResponseDto>();
-
             var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Id == id);
-            serviceResponse.Data = _mapper.Map<GetCustomerResponseDto>(customer);
 
-            return responseHandler.SetResponse(serviceResponse);
+            return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
-        public async Task<ServiceResponse<GetCustomerResponseDto>> Add(AddCustomerRequestDto newCustomer)
+        public async Task Add(AddCustomerRequestDto newCustomer)
         {
-            var serviceResponse = new ServiceResponse<GetCustomerResponseDto>();
-
             _context.Customers.Add(_mapper.Map<Customer>(newCustomer));
             await _context.SaveChangesAsync();
-
-            return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetCustomerResponseDto>> Delete(int id)
+        public async Task<GetCustomerResponseDto> Delete(int id)
         {
-            var serviceResponse = new ServiceResponse<GetCustomerResponseDto>();
             var customer = await _context.Customers.FindAsync(id);
 
             if (customer != null)
@@ -51,14 +41,11 @@ namespace ShopApp.Services.CustomerServices
                 await _context.SaveChangesAsync();
             }
 
-            serviceResponse.Data = _mapper.Map<GetCustomerResponseDto>(customer);
-
-            return responseHandler.SetResponse(serviceResponse);
+            return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
-        public async Task<ServiceResponse<GetCustomerResponseDto>> Update(int id, AddCustomerRequestDto newCustomer)
+        public async Task<GetCustomerResponseDto> Update(int id, AddCustomerRequestDto newCustomer)
         {
-            var serviceResponse = new ServiceResponse<GetCustomerResponseDto>();
             var customer = await _context.Customers.FindAsync(id);
 
             if (customer != null)
@@ -68,9 +55,7 @@ namespace ShopApp.Services.CustomerServices
                 await _context.SaveChangesAsync();
             }
 
-            serviceResponse.Data = _mapper.Map<GetCustomerResponseDto>(customer);
-
-            return responseHandler.SetResponse(serviceResponse);
+            return _mapper.Map<GetCustomerResponseDto>(customer);
         }
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Order;
 using ShopApp.Services.GenericService;
-using ShopApp.Services.ResponseHandlers;
 
 namespace ShopApp.Services.OrderServices
 {
@@ -12,37 +11,27 @@ namespace ShopApp.Services.OrderServices
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public DefaultResponseHandler<GetOrderResponseDto> responseHandler = new();
-
         public OrderService(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<ServiceResponse<GetOrderResponseDto>> GetById(int id)
-        {
-            var serviceResponse = new ServiceResponse<GetOrderResponseDto>();
-
+        public async Task<GetOrderResponseDto> GetById(int id)
+        { 
             var item = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
-            serviceResponse.Data = _mapper.Map<GetOrderResponseDto>(item);
 
-            return responseHandler.SetResponse(serviceResponse);
+            return _mapper.Map<GetOrderResponseDto>(item);
         }
 
-        public async Task<ServiceResponse<GetOrderResponseDto>> Add(AddOrderRequestDto newOrder)
+        public async Task Add(AddOrderRequestDto newOrder)
         {
-            var serviceResponse = new ServiceResponse<GetOrderResponseDto>();
-
             _context.Orders.Add(_mapper.Map<Order>(newOrder));
             await _context.SaveChangesAsync();
-
-            return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetOrderResponseDto>> Delete(int id)
+        public async Task<GetOrderResponseDto> Delete(int id)
         {
-            var serviceResponse = new ServiceResponse<GetOrderResponseDto>();
             var order = await _context.Orders.FindAsync(id);
 
             if (order != null)
@@ -51,14 +40,11 @@ namespace ShopApp.Services.OrderServices
                 await _context.SaveChangesAsync();
             }
 
-            serviceResponse.Data = _mapper.Map<GetOrderResponseDto>(order);
-
-            return responseHandler.SetResponse(serviceResponse);
+            return _mapper.Map<GetOrderResponseDto>(order);
         }
 
-        public async Task<ServiceResponse<GetOrderResponseDto>> Update(int id, AddOrderRequestDto newOrder)
+        public async Task<GetOrderResponseDto> Update(int id, AddOrderRequestDto newOrder)
         {
-            var serviceResponse = new ServiceResponse<GetOrderResponseDto>();
             var order = await _context.Orders.FindAsync(id);
 
             if (order != null)
@@ -68,9 +54,7 @@ namespace ShopApp.Services.OrderServices
                 await _context.SaveChangesAsync();
             }
 
-            serviceResponse.Data = _mapper.Map<GetOrderResponseDto>(order);
-
-            return responseHandler.SetResponse(serviceResponse);
+            return _mapper.Map<GetOrderResponseDto>(order);
         }
     }
 }

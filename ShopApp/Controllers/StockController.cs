@@ -17,7 +17,7 @@ namespace ShopApp.Controllers
 
         [HttpGet]
         [Route("store/{id}")]
-        public async Task<ActionResult<ServiceResponse<List<GetStockResponseDto>>>> GetAllStocks(int id)
+        public async Task<ActionResult<List<GetStockResponseDto>>> GetAllStocks(int id)
         {
             var stocks = await _stockService.GetAllStocksByStoreId(id);
 
@@ -29,7 +29,7 @@ namespace ShopApp.Controllers
 
         [HttpGet]
         [Route("product/{id}")]
-        public async Task<ActionResult<ServiceResponse<GetStockResponseDto>>> GetStock([FromRoute] int id)
+        public async Task<ActionResult<GetStockResponseDto>> GetStock([FromRoute] int id)
         {
             var stock = await _stockService.GetStockByProductId(id);
 
@@ -41,7 +41,7 @@ namespace ShopApp.Controllers
 
         [HttpPut]
         [Route("product/{id}")]
-        public async Task<ActionResult<ServiceResponse<GetStockResponseDto>>> UpdateStock([FromRoute] int id, UpdateStockRequest newStock)
+        public async Task<ActionResult<GetStockResponseDto>> UpdateStock([FromRoute] int id, UpdateStockRequest newStock)
         {
             var stock = await _stockService.UpdateStockByProductId(id, newStock);
 

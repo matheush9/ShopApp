@@ -14,7 +14,7 @@ namespace ShopApp.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<ServiceResponse<T>>> GetById([FromRoute] int id)
+        public async Task<ActionResult<T>> GetById([FromRoute] int id)
         {
             var entity = await _genericService.GetById(id);
 
@@ -25,7 +25,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<T>>> Add([FromBody] T2 newEntity)
+        public async Task<ActionResult<T>> Add([FromBody] T2 newEntity)
         {
             var addedEntity = await _genericService.Add(newEntity);
 
@@ -37,7 +37,7 @@ namespace ShopApp.Controllers
 
         [HttpDelete]        
         [Route("{id}")]
-        public async Task<ActionResult<ServiceResponse<T>>> Delete([FromRoute] int id)
+        public async Task<ActionResult<T>> Delete([FromRoute] int id)
         {
             var entity = await _genericService.Delete(id);
 
@@ -49,7 +49,7 @@ namespace ShopApp.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<ServiceResponse<T>>> Update([FromRoute] int id, T2 newEntity)
+        public async Task<ActionResult<T>> Update([FromRoute] int id, T2 newEntity)
         {
             var entity = await _genericService.Update(id, newEntity);
 
