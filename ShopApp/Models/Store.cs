@@ -2,7 +2,7 @@
 
 namespace ShopApp.Models
 {
-    public class Store
+    public class Store : IEntity
     {
         [Key]
         public int Id { get; set; }

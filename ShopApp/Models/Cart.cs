@@ -2,7 +2,7 @@
 
 namespace ShopApp.Models
 {
-    public class Cart
+    public class Cart : IEntity
     {
         [Key]
         public int Id { get; set; }

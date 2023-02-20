@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopApp.Models
 {
-    public class Product
+    public class Product : IEntity
     {
         [Key]
         public int Id { get; set; }

@@ -2,7 +2,7 @@
 
 namespace ShopApp.Models
 {
-    public class Order
+    public class Order : IEntity
     {
         static readonly string[] OrderStatuses = {"Created, Processing, Completed"};
 
