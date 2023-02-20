@@ -1,6 +1,7 @@
 global using ShopApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using ShopApp.CustomExceptionMiddleware;
 using ShopApp.Data;
 using ShopApp.Dtos.Customer;
 using ShopApp.Dtos.Item;
@@ -40,6 +41,8 @@ if (app.Environment.IsDevelopment())
   app.UseSwagger();
   app.UseSwaggerUI();
 }
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
