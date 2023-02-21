@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos.Cart;
 using ShopApp.Services.CartServices;
 
@@ -15,8 +15,7 @@ namespace ShopApp.Controllers
             _cartService = cartService;
         }
 
-        [HttpGet]
-        [Route("Customer/{id}")]
+        [HttpGet("Customer/{id}")]
         public async Task<ActionResult<GetCartResponseDto>> GetCart([FromRoute] int id)
         {
             var cart = await _cartService.GetCartByCustomerId(id);

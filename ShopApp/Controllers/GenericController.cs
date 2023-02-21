@@ -12,8 +12,7 @@ namespace ShopApp.Controllers
             _genericService = genericService;
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<T>> GetById([FromRoute] int id)
         {
             var entity = await _genericService.GetById(id);
@@ -31,8 +30,7 @@ namespace ShopApp.Controllers
             return Ok();
         }
 
-        [HttpDelete]        
-        [Route("{id}")]
+        [HttpDelete("{id}")]        
         public async Task<ActionResult<T>> Delete([FromRoute] int id)
         {
             var entity = await _genericService.Delete(id);
@@ -43,8 +41,7 @@ namespace ShopApp.Controllers
             return Ok(entity);
         }
 
-        [HttpPut]
-        [Route("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<T>> Update([FromRoute] int id, T2 newEntity)
         {
             var entity = await _genericService.Update(id, newEntity);
