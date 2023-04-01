@@ -52,7 +52,6 @@ namespace ShopApp.Services.ItemServices
                 item.Quantity = newItem.Quantity;
                 item.PriceTotal = newItem.PriceTotal;
                 item.ProductId = newItem.ProductId;
-                item.CartId = newItem.CartId;
                 item.OrderId = newItem.OrderId;
 
                 await _context.SaveChangesAsync();

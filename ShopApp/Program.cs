@@ -8,7 +8,6 @@ using ShopApp.Dtos.Item;
 using ShopApp.Dtos.Order;
 using ShopApp.Dtos.Products;
 using ShopApp.Dtos.Store;
-using ShopApp.Services.CartServices;
 using ShopApp.Services.CustomerServices;
 using ShopApp.Services.GenericService;
 using ShopApp.Services.ItemServices;
@@ -32,7 +31,6 @@ builder.Services.AddScoped<IGenericService<GetItemResponseDto, AddItemRequestDto
 builder.Services.AddScoped<IGenericService<GetCustomerResponseDto, AddCustomerRequestDto>, CustomerService>();
 builder.Services.AddScoped<IGenericService<GetOrderResponseDto, AddOrderRequestDto>, OrderService>();
 builder.Services.AddScoped<IStockService, StockService>();
-builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
