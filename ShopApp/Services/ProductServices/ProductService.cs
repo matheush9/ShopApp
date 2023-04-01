@@ -7,7 +7,7 @@ using ShopApp.Services.StockServices;
 
 namespace ShopApp.Services.ProductServices
 {
-    public class ProductService : IGenericService<GetProductResponseDto, AddProductRequestDto>
+    public class ProductService : IGenericService<GetProductResponseDto, AddProductRequestDto>, IProductService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -27,6 +27,20 @@ namespace ShopApp.Services.ProductServices
             return _mapper.Map<GetProductResponseDto>(product);
         }
 
+        public async Task<List<GetProductResponseDto>> SearchProduct(string query)
+        {
+            var products = new List<Product>();
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                products = await _context.Products.Where(p => p.Name.Contains(query) 
+                                                           || p.Description.Contains(query) 
+                                                           || p.Store.Name.Contains(query)).ToListAsync();
+            }
+
+            return _mapper.Map<List<GetProductResponseDto>>(products);
+        }
+
         public async Task Add(AddProductRequestDto newProduct)
         {
             var product = _mapper.Map<Product>(newProduct);
@@ -34,7 +48,7 @@ namespace ShopApp.Services.ProductServices
 
             await _context.SaveChangesAsync();
 
-            await _stockService.AddStock(product.Id, product.StoreId);              
+            await _stockService.AddStock(product.Id, product.StoreId);
         }
 
         public async Task<GetProductResponseDto> Delete(int id)
