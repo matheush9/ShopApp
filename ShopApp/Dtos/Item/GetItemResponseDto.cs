@@ -10,7 +10,6 @@ namespace ShopApp.Dtos.Item
         public decimal PriceTotal { get; set; }
 
         public int ProductId { get; set; }
-        public int CartId { get; set; }
         public int OrderId { get; set; }
     }
 }
