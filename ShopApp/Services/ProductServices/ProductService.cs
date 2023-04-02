@@ -33,8 +33,8 @@ namespace ShopApp.Services.ProductServices
 
             if (!string.IsNullOrEmpty(query))
             {
-                products = await _context.Products.Where(p => p.Name.Contains(query) 
-                                                           || p.Description.Contains(query) 
+                products = await _context.Products.Where(p => p.Name.Contains(query)
+                                                           || p.Description.Contains(query)
                                                            || p.Store.Name.Contains(query)).ToListAsync();
             }
 
@@ -75,6 +75,37 @@ namespace ShopApp.Services.ProductServices
                 product.Name = newProduct.Name;
                 product.ImageUrl = newProduct.ImageUrl;
 
+                await _context.SaveChangesAsync();
+            }
+
+            return _mapper.Map<GetProductResponseDto>(product);
+        }
+
+        public async Task<List<GetProductResponseDto>> FilterFeaturedProducts()
+        {
+            var products = await _context.Products.OrderByDescending(p => p.SoldAmount).ToListAsync();
+            return _mapper.Map<List<GetProductResponseDto>>(products);
+        }
+
+        public async Task<List<GetProductResponseDto>> FilterNewProducts()
+        {
+            var products = await _context.Products.OrderByDescending(p => p.CreatedAt).ToListAsync();
+            return _mapper.Map<List<GetProductResponseDto>>(products);
+        }
+
+        public async Task<List<GetProductResponseDto>> FilterNewStores()
+        {
+            var products = await _context.Products.OrderByDescending(p => p.Store.CreatedAt).ToListAsync();
+            return _mapper.Map<List<GetProductResponseDto>>(products);
+        }
+
+        public async Task<GetProductResponseDto> SellProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product != null)
+            {
+                product.SoldAmount++;
                 await _context.SaveChangesAsync();
             }
 

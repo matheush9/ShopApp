@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos.Products;
 using ShopApp.Services.GenericService;
 using ShopApp.Services.ProductServices;
@@ -26,6 +26,40 @@ namespace ShopApp.Controllers
 
             return Ok(products);
         }
+
+        [HttpGet("filter/featured")]
+        public async Task<ActionResult<List<GetProductResponseDto>>> FilterFeaturedProducts()
+        {
+            var products = await _productService.FilterFeaturedProducts();
+
+            if (products is null)
+                return NotFound(products);
+
+            return Ok(products);
+        }
+
+        [HttpGet("filter/new-products")]
+        public async Task<ActionResult<List<GetProductResponseDto>>> FilterNewProducts()
+        {
+            var products = await _productService.FilterNewProducts();
+
+            if (products is null)
+                return NotFound(products);
+
+            return Ok(products);
+        }
+
+        [HttpGet("filter/new-stores")]
+        public async Task<ActionResult<List<GetProductResponseDto>>> FilterNewStores()
+        {
+            var products = await _productService.FilterNewStores();
+
+            if (products is null)
+                return NotFound(products);
+
+            return Ok(products);
+        }
+
         [HttpPut("sell/{id}")]
         public async Task<ActionResult<List<GetProductResponseDto>>> SellProduct([FromRoute] int id)
         {
