@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos.Products;
 using ShopApp.Services.GenericService;
 using ShopApp.Services.ProductServices;
@@ -20,6 +20,16 @@ namespace ShopApp.Controllers
         public async Task<ActionResult<List<GetProductResponseDto>>> SearchProductByName(string query)
         {
             var products = await _productService.SearchProduct(query);
+
+            if (products is null)
+                return NotFound(products);
+
+            return Ok(products);
+        }
+        [HttpPut("sell/{id}")]
+        public async Task<ActionResult<List<GetProductResponseDto>>> SellProduct([FromRoute] int id)
+        {
+            var products = await _productService.SellProduct(id);
 
             if (products is null)
                 return NotFound(products);
