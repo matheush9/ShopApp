@@ -11,6 +11,7 @@ namespace ShopApp.Dtos.Products
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }   
         public int StoreId { get; set; }
+        public int ProductCategoryId { get; set; }
 
     }
 }

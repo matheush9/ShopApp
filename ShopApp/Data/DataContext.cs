@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShopApp.Data
 {
@@ -15,7 +15,8 @@ namespace ShopApp.Data
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<Stock> Stocks => Set<Stock>();
         public DbSet<Customer> Customers => Set<Customer>();
- 
+        public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()

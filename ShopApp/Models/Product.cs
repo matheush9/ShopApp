@@ -9,7 +9,7 @@ namespace ShopApp.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required] 
         public string Name { get; set; }    
         public string Description { get; set; }
         public int SoldAmount { get; set; }
@@ -22,6 +22,9 @@ namespace ShopApp.Models
         //Relationships
         public Store Store { get; set; }
         public int StoreId { get; set; }
+
+        public ProductCategory ProductCategory { get; set; }
+        public int ProductCategoryId { get; set; }
 
         public List<Item> Items { get; set; }
     }
