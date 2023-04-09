@@ -1,8 +1,9 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
 using ShopApp.Services.GenericService;
+using ShopApp.Services.ImagesServices;
 using ShopApp.Services.StockServices;
 
 namespace ShopApp.Services.ProductServices
