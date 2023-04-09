@@ -10,6 +10,8 @@ using ShopApp.Dtos.Products;
 using ShopApp.Dtos.Store;
 using ShopApp.Services.CustomerServices;
 using ShopApp.Services.GenericService;
+using ShopApp.Services.ImagesServices;
+using ShopApp.Services.ImagesServices.ImageUploadService;
 using ShopApp.Services.ItemServices;
 using ShopApp.Services.OrderServices;
 using ShopApp.Services.ProductServices;
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IGenericService<GetCustomerResponseDto, AddCustomerRe
 builder.Services.AddScoped<IGenericService<GetOrderResponseDto, AddOrderRequestDto>, OrderService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IImageUploadService, ImageUploadService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 var app = builder.Build();
 
