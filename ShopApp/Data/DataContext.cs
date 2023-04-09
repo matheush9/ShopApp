@@ -16,6 +16,7 @@ namespace ShopApp.Data
         public DbSet<Stock> Stocks => Set<Stock>();
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+        public DbSet<Image> Images => Set<Image>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
