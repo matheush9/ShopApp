@@ -57,7 +57,6 @@ namespace ShopApp.Services.StoreServices
                 store.Name = newStore.Name;
                 store.Description = newStore.Description;
                 store.Country = newStore.Country;
-                store.ImageUrl = newStore.ImageUrl;
 
                 await _context.SaveChangesAsync();
             }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
@@ -73,7 +73,6 @@ namespace ShopApp.Services.ProductServices
                 product.Description = newProduct.Description;
                 product.Price = newProduct.Price;
                 product.Name = newProduct.Name;
-                product.ImageUrl = newProduct.ImageUrl;
 
                 await _context.SaveChangesAsync();
             }

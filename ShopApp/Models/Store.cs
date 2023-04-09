@@ -12,7 +12,6 @@ namespace ShopApp.Models
         public string Description { get; set; }
 
         public string Country { get; set; }
-        public string ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         //Relationships
