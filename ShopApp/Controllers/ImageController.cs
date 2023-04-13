@@ -27,6 +27,17 @@ namespace ShopApp.Controllers
             return Ok(image);
         }
 
+        [HttpGet("product/{id}")]
+        public async Task<IActionResult> GetImagesByProduct(int id)
+        {
+            var image = await _imageService.GetImagesByProduct(id);
+
+            if (image is null)
+                return NotFound(image);
+
+            return Ok(image);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add([FromForm] string json, [FromForm] IFormFile imageFile)
         {

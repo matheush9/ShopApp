@@ -18,11 +18,19 @@ namespace ShopApp.Services.ImagesServices
             _context = context;
             _imageUploadService = imageUploadService;
         }
+
         public async Task<GetImageResponseDto> GetById(int id)
         {
             var image = await _context.Images.FirstOrDefaultAsync(i => i.Id == id);
 
             return _mapper.Map<GetImageResponseDto>(image);
+        }
+
+        public async Task<List<GetImageResponseDto>> GetImagesByProduct(int id)
+        {
+            var images = await _context.Images.Where(p => p.ProductId == id).ToListAsync();
+
+            return _mapper.Map<List<GetImageResponseDto>>(images);
         }
 
         public async Task<GetImageResponseDto> Add(Image newImage, IFormFile imageFile)
