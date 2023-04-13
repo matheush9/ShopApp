@@ -2,8 +2,8 @@
 {
     public interface IImageUploadService
     {
-        Task<string> UploadImage(IFormFile file, bool smallImage);
+        Task<string> UploadImage(IFormFile image, bool smallImage);
         Task<byte[]> ResizeImage(byte[] imageData, int maxWidth, int maxHeight);
-        string ConstructImagePath(IFormFile file, bool smallImage);
+        ImagePaths ConstructImagePath(IFormFile image, bool smallImage);
     }
 }

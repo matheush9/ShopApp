@@ -4,53 +4,50 @@ namespace ShopApp.Services.ImagesServices.ImageUploadService
 {
     public class ImageUploadService : IImageUploadService
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public ImageUploadService(IWebHostEnvironment webHostEnvironment)
+        public async Task<string> UploadImage(IFormFile image, bool smallImage)
         {
-            _webHostEnvironment = webHostEnvironment;
-        }
-
-        public async Task<string> UploadImage(IFormFile file, bool smallImage)
-        {
-            if (file != null && file.Length > 0)
+            if (image != null && image.Length > 0)
             {
-                var filePath = ConstructImagePath(file, smallImage);
+                var imagePath = ConstructImagePath(image, smallImage);
 
                 int imageSize = smallImage ? 300 : 600;
 
                 var memoryStream = new MemoryStream();
-                await file.CopyToAsync(memoryStream);
+                await image.CopyToAsync(memoryStream);
                 var resizedImageBytes = await ResizeImage(memoryStream.ToArray(), imageSize, imageSize);
 
-                await File.WriteAllBytesAsync(filePath, resizedImageBytes);
+                await File.WriteAllBytesAsync(imagePath.LocalPath, resizedImageBytes);
 
-                return filePath;
+                return imagePath.RemotePath;
             }
             return string.Empty;
         }
 
-        public string ConstructImagePath(IFormFile file, bool smallImage)
+        public ImagePaths ConstructImagePath(IFormFile image, bool smallImage)
         {
             string path = string.Empty;
 
-            if (file.FileName.Contains("-product"))
-                path = "/Products";
-            else if (file.FileName.Contains("-profile"))
-                path = "/Profiles";
+            if (image.FileName.Contains("-product"))
+                path = "/products";
+            else if (image.FileName.Contains("-profile"))
+                path = "/profiles";
 
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentException("Invalid file name! Must have the -product or -profile tag.");
 
-            path += smallImage ? "/Small" : "/Large";
+            path += smallImage ? "/small" : "/large";
 
-            string fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images" + path);
-            string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images" + path);
+            string filename = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
 
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
+            string localPath = Path.Combine(fullPath, filename);
+            string remotePath = "/images" + path + "/" + filename;
 
-            return Path.Combine(fullPath, filename);
+            return new ImagePaths
+            {
+                LocalPath = localPath,
+                RemotePath = remotePath
+            };
         }
 
         public async Task<byte[]> ResizeImage(byte[] imageData, int maxWidth, int maxHeight)
@@ -69,6 +66,5 @@ namespace ShopApp.Services.ImagesServices.ImageUploadService
 
             return outputStream.ToArray();
         }
-
     }
 }

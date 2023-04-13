@@ -1,6 +1,7 @@
 global using ShopApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using ShopApp.CustomExceptionMiddleware;
 using ShopApp.Data;
 using ShopApp.Dtos.Customer;
@@ -47,7 +48,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Products/Large")),
+    RequestPath = "/images/products/large"
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Products/Small")),
+    RequestPath = "/images/products/small"
+});
 
 app.UseHttpsRedirection();
 
