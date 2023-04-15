@@ -5,6 +5,7 @@ namespace ShopApp.Services.ImagesServices
     public interface IImageService
     {
         Task<GetImageResponseDto> GetById(int id);
+        Task<GetImageResponseDto> GetImageByProduct(int id);
         Task<List<GetImageResponseDto>> GetImagesByProduct(int id);
         Task<GetImageResponseDto> Add(Image newImage, IFormFile imageFile);
         Task<GetImageResponseDto> Delete(int id);

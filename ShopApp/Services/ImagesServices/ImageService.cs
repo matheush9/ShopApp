@@ -33,6 +33,13 @@ namespace ShopApp.Services.ImagesServices
             return _mapper.Map<List<GetImageResponseDto>>(images);
         }
 
+        public async Task<GetImageResponseDto> GetImageByProduct(int id)
+        {
+            var image = await _context.Images.FirstOrDefaultAsync(p => p.ProductId == id);
+
+            return _mapper.Map<GetImageResponseDto>(image);
+        }
+
         public async Task<GetImageResponseDto> Add(Image newImage, IFormFile imageFile)
         {
             newImage.SmallImagePath = await _imageUploadService.UploadImage(imageFile, true);

@@ -27,10 +27,21 @@ namespace ShopApp.Controllers
             return Ok(image);
         }
 
-        [HttpGet("product/{id}")]
-        public async Task<IActionResult> GetImagesByProduct(int id)
+        [HttpGet("product/list/{id}")]
+        public async Task<IActionResult> GetImagesByProduct([FromRoute] int id)
         {
             var image = await _imageService.GetImagesByProduct(id);
+
+            if (image is null)
+                return NotFound(image);
+
+            return Ok(image);
+        }
+
+        [HttpGet("product/{id}")]
+        public async Task<IActionResult> GetImageByProductId([FromRoute] int id)
+        {
+            var image = await _imageService.GetImageByProduct(id);
 
             if (image is null)
                 return NotFound(image);
