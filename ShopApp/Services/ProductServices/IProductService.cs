@@ -4,10 +4,8 @@ namespace ShopApp.Services.ProductServices
 {
     public interface IProductService
     {
-        Task<List<GetProductResponseDto>> SearchProduct(string query);
-        Task<List<GetProductResponseDto>> FilterFeaturedProducts();
-        Task<List<GetProductResponseDto>> FilterNewProducts();
-        Task<List<GetProductResponseDto>> FilterNewStores();
+        Task<List<GetProductResponseDto>> Filter(ProductQueryParams productParams);
+        List<Product> Order(List<Product> products, string sort);
         Task<GetProductResponseDto> SellProduct(int id);
     }
 }

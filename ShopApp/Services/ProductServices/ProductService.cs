@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
 using ShopApp.Services.GenericService;
-using ShopApp.Services.ImagesServices;
 using ShopApp.Services.StockServices;
 
 namespace ShopApp.Services.ProductServices
@@ -28,18 +27,43 @@ namespace ShopApp.Services.ProductServices
             return _mapper.Map<GetProductResponseDto>(product);
         }
 
-        public async Task<List<GetProductResponseDto>> SearchProduct(string query)
+        public async Task<List<GetProductResponseDto>> Filter(ProductQueryParams productParams)
         {
-            var products = new List<Product>();
+            var productsQuery = _context.Products
+                .Include(p => p.Store)
 
-            if (!string.IsNullOrEmpty(query))
+                .Where(p => p.Name.Contains(productParams.Query)
+                           || p.Description.Contains(productParams.Query)
+                           || p.Store.Name.Contains(productParams.Query)
+                           || p.ProductCategoryId == productParams.CategoryId
+                           || p.StoreId == productParams.StoreId);
+
+            var products = await productsQuery.ToListAsync();
+
+            if (productParams.Query == string.Empty && productParams.CategoryId == null && productParams.StoreId == null)
             {
-                products = await _context.Products.Where(p => p.Name.Contains(query)
-                                                           || p.Description.Contains(query)
-                                                           || p.Store.Name.Contains(query)).ToListAsync();
+                products = await _context.Products.Include(p => p.Store).ToListAsync();
             }
 
+            products = Order(products, productParams.Sort);
+
             return _mapper.Map<List<GetProductResponseDto>>(products);
+        }
+
+        public List<Product> Order(List<Product> products, string sort)
+        {
+            if (!string.IsNullOrEmpty(sort))
+            {
+                return sort switch
+                {
+                    "featured" => products.OrderByDescending(p => p.SoldAmount).ToList(),
+                    "newProducts" => products.OrderByDescending(p => p.CreatedAt).ToList(),
+                    "newStores" => products.OrderByDescending(p => p.Store.CreatedAt).ToList(),
+                    _ => products,
+                };
+            }
+
+            return products;
         }
 
         public async Task Add(AddProductRequestDto newProduct)
@@ -79,24 +103,6 @@ namespace ShopApp.Services.ProductServices
             }
 
             return _mapper.Map<GetProductResponseDto>(product);
-        }
-
-        public async Task<List<GetProductResponseDto>> FilterFeaturedProducts()
-        {
-            var products = await _context.Products.OrderByDescending(p => p.SoldAmount).ToListAsync();
-            return _mapper.Map<List<GetProductResponseDto>>(products);
-        }
-
-        public async Task<List<GetProductResponseDto>> FilterNewProducts()
-        {
-            var products = await _context.Products.OrderByDescending(p => p.CreatedAt).ToListAsync();
-            return _mapper.Map<List<GetProductResponseDto>>(products);
-        }
-
-        public async Task<List<GetProductResponseDto>> FilterNewStores()
-        {
-            var products = await _context.Products.OrderByDescending(p => p.Store.CreatedAt).ToListAsync();
-            return _mapper.Map<List<GetProductResponseDto>>(products);
         }
 
         public async Task<GetProductResponseDto> SellProduct(int id)

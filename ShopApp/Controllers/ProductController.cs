@@ -16,43 +16,10 @@ namespace ShopApp.Controllers
             _productService = productService;
         }
 
-        [HttpGet("search/{query}")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> SearchProductByName(string query)
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductQueryParams productParams)
         {
-            var products = await _productService.SearchProduct(query);
-
-            if (products is null)
-                return NotFound(products);
-
-            return Ok(products);
-        }
-
-        [HttpGet("filter/featured")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> FilterFeaturedProducts()
-        {
-            var products = await _productService.FilterFeaturedProducts();
-
-            if (products is null)
-                return NotFound(products);
-
-            return Ok(products);
-        }
-
-        [HttpGet("filter/new-products")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> FilterNewProducts()
-        {
-            var products = await _productService.FilterNewProducts();
-
-            if (products is null)
-                return NotFound(products);
-
-            return Ok(products);
-        }
-
-        [HttpGet("filter/new-stores")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> FilterNewStores()
-        {
-            var products = await _productService.FilterNewStores();
+            var products = await _productService.Filter(productParams);
 
             if (products is null)
                 return NotFound(products);
