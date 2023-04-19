@@ -40,6 +40,21 @@ namespace ShopApp.Services.ImagesServices
             return _mapper.Map<GetImageResponseDto>(image);
         }
 
+        public async Task<List<GetImageResponseDto>> GetImagesByProductIdsList(List<int> productIdsList)
+        {
+            var images = new List<Image?>();
+
+            if (productIdsList != null && productIdsList.Count > 0)
+            {
+
+                images = await _context.Images.Where(i => i.ProductId != null && productIdsList.Contains(i.ProductId.Value))
+                                    .GroupBy(i => i.ProductId ?? 0)
+                                    .Select(g => g.FirstOrDefault()).ToListAsync();
+            }
+
+            return _mapper.Map<List<GetImageResponseDto>>(images);
+        }
+
         public async Task<GetImageResponseDto> Add(Image newImage, IFormFile imageFile)
         {
             newImage.SmallImagePath = await _imageUploadService.UploadImage(imageFile, true);
