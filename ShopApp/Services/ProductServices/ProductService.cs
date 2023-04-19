@@ -59,6 +59,8 @@ namespace ShopApp.Services.ProductServices
                     "featured" => products.OrderByDescending(p => p.SoldAmount).ToList(),
                     "newProducts" => products.OrderByDescending(p => p.CreatedAt).ToList(),
                     "newStores" => products.OrderByDescending(p => p.Store.CreatedAt).ToList(),
+                    "priceHighToLow" => products.OrderByDescending(p => p.Price).ToList(),
+                    "priceLowToHigh" => products.OrderBy(p => p.Price).ToList(),
                     _ => products,
                 };
             }
