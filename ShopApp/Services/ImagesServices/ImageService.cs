@@ -42,14 +42,12 @@ namespace ShopApp.Services.ImagesServices
 
         public async Task<List<GetImageResponseDto>> GetImagesByProductIdsList(List<int> productIdsList)
         {
-            var images = new List<Image?>();
+            var images = new List<Image>();
 
             if (productIdsList != null && productIdsList.Count > 0)
             {
-
-                images = await _context.Images.Where(i => i.ProductId != null && productIdsList.Contains(i.ProductId.Value))
-                                    .GroupBy(i => i.ProductId ?? 0)
-                                    .Select(g => g.FirstOrDefault()).ToListAsync();
+                images = await _context.Images.Where(i => productIdsList.Contains(i.ProductId ?? -1)).ToListAsync();
+                images = images.OrderBy(i => productIdsList.IndexOf(i.ProductId ?? -1)).ToList();
             }
 
             return _mapper.Map<List<GetImageResponseDto>>(images);
