@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace ShopApp.Models
 {
@@ -16,16 +14,6 @@ namespace ShopApp.Models
         //Relationships
 
         public Store Store { get; set; }
-        public Customer Customer { get; set; }
-
-        //
-
-        public void HashPassword(string password)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(password);
-            byte[] hash = SHA256.HashData(bytes);
-
-            Password = Convert.ToBase64String(hash);
-        }
+        public Customer Customer { get; set; }    
     }
 }
