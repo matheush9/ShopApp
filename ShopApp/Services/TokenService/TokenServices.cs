@@ -3,17 +3,17 @@ using ShopApp.Services.PrivateKey;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace ShopApp.Services.TokenService
+namespace ShopApp.Services.TokenServices
 {
     public class TokenService
     {
-        public static string GenerateToken()
+        public static JwtToken GenerateToken(User user)
         {
             var tokenConfig = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-
+                    new Claim("UserId", user.Id.ToString()),
                 }),
 
                 Expires = DateTime.UtcNow.AddHours(3),
@@ -24,7 +24,14 @@ namespace ShopApp.Services.TokenService
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenConfig);
 
-            return tokenHandler.WriteToken(token);
+            var jwtToken = new JwtToken
+            {
+                Token = tokenHandler.WriteToken(token),
+                IssuedAt = DateTime.UtcNow,
+                ExpirationTime = tokenConfig.Expires
+            };
+
+            return jwtToken;
         }
     }
 }
