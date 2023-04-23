@@ -22,6 +22,7 @@ using ShopApp.Services.PrivateKey;
 using ShopApp.Services.ProductServices;
 using ShopApp.Services.StockServices;
 using ShopApp.Services.StoreServices;
+using ShopApp.Services.UserServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +87,7 @@ builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IImageUploadService, ImageUploadService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
