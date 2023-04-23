@@ -13,5 +13,8 @@ namespace ShopApp.Models
 
         //Relationships
         public List<Order> Orders { get; set; }
+
+        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }

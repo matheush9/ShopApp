@@ -18,5 +18,8 @@ namespace ShopApp.Models
         public List<Product> Products { get; set; }
 
         public List<Stock> Stocks { get; set; }
+
+        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }
