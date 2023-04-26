@@ -29,11 +29,11 @@ namespace ShopApp.Services.ImagesServices.ImageUploadService
 
             if (image.FileName.Contains("-product"))
                 path = "/products";
-            else if (image.FileName.Contains("-profile"))
-                path = "/profiles";
+            else if (image.FileName.Contains("-user"))
+                path = "/user";
 
             if (string.IsNullOrEmpty(path))
-                throw new ArgumentException("Invalid file name! Must have the -product or -profile tag.");
+                throw new ArgumentException("Invalid file name! Must have the -product or -user tag.");
 
             path += smallImage ? "/small" : "/large";
 

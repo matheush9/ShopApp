@@ -111,6 +111,18 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/images/products/small"
 });
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Users/Large")),
+    RequestPath = "/images/users/large"
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Users/Small")),
+    RequestPath = "/images/users/small"
+});
+
 app.UseHttpsRedirection();
 
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
