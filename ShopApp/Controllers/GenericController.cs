@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopApp.Services.GenericService;
 
 namespace ShopApp.Controllers
@@ -12,6 +13,7 @@ namespace ShopApp.Controllers
             _genericService = genericService;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<T>> GetById([FromRoute] int id)
         {
@@ -23,6 +25,7 @@ namespace ShopApp.Controllers
             return Ok(entity);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<T>> Add([FromBody] T2 newEntity)
         {
@@ -30,6 +33,7 @@ namespace ShopApp.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]        
         public async Task<ActionResult<T>> Delete([FromRoute] int id)
         {
@@ -41,6 +45,7 @@ namespace ShopApp.Controllers
             return Ok(entity);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<T>> Update([FromRoute] int id, T2 newEntity)
         {

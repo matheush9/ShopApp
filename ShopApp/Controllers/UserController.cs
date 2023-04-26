@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos.User;
 using ShopApp.Services.UserServices;
 
@@ -15,6 +16,7 @@ namespace ShopApp.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUserById([FromRoute] int id)
         {
@@ -34,9 +36,13 @@ namespace ShopApp.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
+            if (IsUserActionAllowed(id))
+                return Unauthorized();
+
             var user = await _userService.DeleteUser(id);
 
             if (user is null)
@@ -44,10 +50,14 @@ namespace ShopApp.Controllers
 
             return Ok(user);
         }
-        
+
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser([FromRoute] int id, AddUserRequestDto newUser)
         {
+            if (IsUserActionAllowed(id))
+                return Unauthorized();
+
             var user = await _userService.UpdateUser(id, newUser);
 
             if (user is null)
@@ -65,6 +75,16 @@ namespace ShopApp.Controllers
                 return Unauthorized();
 
             return Ok(token);
+        }
+
+        public bool IsUserActionAllowed(int targetUser)
+        {
+            var authenticatedUserId = int.Parse(User.FindFirst("UserId").Value);
+
+            if (authenticatedUserId != targetUser)
+                return false;
+
+            return true;
         }
     }
 }
