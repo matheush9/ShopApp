@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShopApp.Dtos.Image;
-using ShopApp.Services.ImagesServices;
+using ShopApp.Services.ImagesService;
 
 namespace ShopApp.Controllers
 {

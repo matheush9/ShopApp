@@ -1,6 +1,6 @@
 ﻿using ShopApp.Dtos.Image;
 
-namespace ShopApp.Services.ImagesServices
+namespace ShopApp.Services.ImagesService
 {
     public interface IImageService
     {

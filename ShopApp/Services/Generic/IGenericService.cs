@@ -1,4 +1,4 @@
-﻿namespace ShopApp.Services.GenericService
+﻿namespace ShopApp.Services.Generic
 {
     public interface IGenericService<T, T2>
     {

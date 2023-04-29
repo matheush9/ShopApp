@@ -1,6 +1,7 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace ShopApp.Services.PrivateKey
+namespace ShopApp.Services.PrivateKeyService
 {
     public static class PrivateKeyService
     {

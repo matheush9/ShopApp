@@ -4,7 +4,7 @@ using ShopApp.Data;
 using ShopApp.Dtos.Image;
 using ShopApp.Services.ImagesServices.ImageUploadService;
 
-namespace ShopApp.Services.ImagesServices
+namespace ShopApp.Services.ImagesService
 {
     public class ImageService : IImageService
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos.Stock;
-using ShopApp.Services.StockServices;
+using ShopApp.Services.StockService;
 
 namespace ShopApp.Controllers
 {

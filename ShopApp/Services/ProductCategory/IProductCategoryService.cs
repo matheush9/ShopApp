@@ -1,6 +1,6 @@
 ﻿using ShopApp.Dtos.Category;
 
-namespace ShopApp.Services.CategoryServices
+namespace ShopApp.Services.CategoryService
 {
     public interface IProductCategoryService
     {

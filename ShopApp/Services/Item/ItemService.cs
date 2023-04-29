@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Item;
-using ShopApp.Services.GenericService;
+using ShopApp.Services.Generic;
 
-namespace ShopApp.Services.ItemServices
+namespace ShopApp.Services.ItemService
 {
     public class ItemService : IGenericService<GetItemResponseDto, AddItemRequestDto>
     {

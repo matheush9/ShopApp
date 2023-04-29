@@ -1,4 +1,4 @@
-﻿namespace ShopApp.Services.PasswordHasher
+﻿namespace ShopApp.Services.PasswordHasherService
 {
     public class PasswordHasherService
     {

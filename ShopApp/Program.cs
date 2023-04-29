@@ -12,17 +12,17 @@ using ShopApp.Dtos.Item;
 using ShopApp.Dtos.Order;
 using ShopApp.Dtos.Products;
 using ShopApp.Dtos.Store;
-using ShopApp.Services.CustomerServices;
-using ShopApp.Services.GenericService;
-using ShopApp.Services.ImagesServices;
+using ShopApp.Services.CustomerService;
+using ShopApp.Services.Generic;
+using ShopApp.Services.ImagesService;
 using ShopApp.Services.ImagesServices.ImageUploadService;
-using ShopApp.Services.ItemServices;
-using ShopApp.Services.OrderServices;
-using ShopApp.Services.PrivateKey;
-using ShopApp.Services.ProductServices;
-using ShopApp.Services.StockServices;
-using ShopApp.Services.StoreServices;
-using ShopApp.Services.UserServices;
+using ShopApp.Services.ItemService;
+using ShopApp.Services.OrderService;
+using ShopApp.Services.PrivateKeyService;
+using ShopApp.Services.ProductService;
+using ShopApp.Services.StockService;
+using ShopApp.Services.StoreService;
+using ShopApp.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 

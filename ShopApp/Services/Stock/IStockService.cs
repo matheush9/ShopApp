@@ -1,6 +1,6 @@
 ﻿using ShopApp.Dtos.Stock;
 
-namespace ShopApp.Services.StockServices
+namespace ShopApp.Services.StockService
 {
     public interface IStockService
     {

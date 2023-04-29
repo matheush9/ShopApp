@@ -1,9 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using ShopApp.Services.PrivateKey;
+using ShopApp.Services.PrivateKeyService;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace ShopApp.Services.TokenServices
+namespace ShopApp.Services.TokenService
 {
     public class TokenService
     {

@@ -2,11 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.User;
-using ShopApp.Services.PasswordHasher;
-using ShopApp.Services.TokenServices;
-using System.IdentityModel.Tokens.Jwt;
+using ShopApp.Services.PasswordHasherService;
+using ShopApp.Services.TokenService;
 
-namespace ShopApp.Services.UserServices
+namespace ShopApp.Services.UserService
 {
     public class UserService : IUserService
     {

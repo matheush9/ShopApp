@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Stock;
 
-namespace ShopApp.Services.StockServices
+namespace ShopApp.Services.StockService
 {
     public class StockService : IStockService
     {

@@ -1,8 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using ShopApp.Dtos.User;
-using System.IdentityModel.Tokens.Jwt;
+﻿using ShopApp.Dtos.User;
 
-namespace ShopApp.Services.UserServices
+namespace ShopApp.Services.UserService
 {
     public interface IUserService
     {

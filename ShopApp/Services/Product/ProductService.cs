@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Products;
-using ShopApp.Services.GenericService;
-using ShopApp.Services.StockServices;
+using ShopApp.Services.Generic;
+using ShopApp.Services.StockService;
 
-namespace ShopApp.Services.ProductServices
+namespace ShopApp.Services.ProductService
 {
     public class ProductService : IGenericService<GetProductResponseDto, AddProductRequestDto>, IProductService
     {

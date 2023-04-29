@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Customer;
-using ShopApp.Services.GenericService;
+using ShopApp.Services.Generic;
 
-namespace ShopApp.Services.CustomerServices
+namespace ShopApp.Services.CustomerService
 {
     public class CustomerService : IGenericService<GetCustomerResponseDto, AddCustomerRequestDto>
     {

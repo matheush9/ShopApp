@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopApp.Data;
 using ShopApp.Dtos.Category;
 
-namespace ShopApp.Services.CategoryServices
+namespace ShopApp.Services.CategoryService
 {
     public class ProductCategoryService : IProductCategoryService
     {
