@@ -40,7 +40,9 @@ namespace ShopApp.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            if (IsUserActionAllowed(id))
+            var authenticatedUserId = int.Parse(User.FindFirst("UserId").Value);
+
+            if (authenticatedUserId != id)
                 return Unauthorized();
 
             var user = await _userService.DeleteUser(id);
@@ -55,10 +57,12 @@ namespace ShopApp.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser([FromRoute] int id, AddUserRequestDto newUser)
         {
-            if (IsUserActionAllowed(id))
-                return Unauthorized();
+            var authenticatedUserId = int.Parse(User.FindFirst("UserId").Value);
 
-            var user = await _userService.UpdateUser(id, newUser);
+            if (authenticatedUserId != id)
+                return Unauthorized();  
+
+                var user = await _userService.UpdateUser(id, newUser);
 
             if (user is null)
                 return NotFound(user);
@@ -75,16 +79,6 @@ namespace ShopApp.Controllers
                 return Unauthorized();
 
             return Ok(token);
-        }
-
-        public bool IsUserActionAllowed(int targetUser)
-        {
-            var authenticatedUserId = int.Parse(User.FindFirst("UserId").Value);
-
-            if (authenticatedUserId != targetUser)
-                return false;
-
-            return true;
         }
     }
 }
