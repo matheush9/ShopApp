@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShopApp.Services.Generic;
+using ShopApp.Application.Interfaces.Generic;
 
 namespace ShopApp.Controllers
 {

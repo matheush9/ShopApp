@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShopApp.Dtos.User;
-using ShopApp.Services.UserService;
+using ShopApp.Application.Interfaces.User;
+using ShopApp.Domain.DTOs.User;
 
 namespace ShopApp.Controllers
 {

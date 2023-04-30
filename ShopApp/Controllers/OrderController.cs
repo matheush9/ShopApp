@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShopApp.Dtos.Order;
-using ShopApp.Services.Generic;
+using ShopApp.Application.Interfaces.Generic;
+using ShopApp.Domain.DTOs.Order;
 
 namespace ShopApp.Controllers
 {

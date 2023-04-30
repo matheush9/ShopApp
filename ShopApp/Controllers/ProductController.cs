@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShopApp.Dtos.Products;
-using ShopApp.Services.Generic;
-using ShopApp.Services.ProductService;
+using ShopApp.Application.Interfaces.Generic;
+using ShopApp.Application.Interfaces.ProductService;
+using ShopApp.Domain.DTOs.Products;
 
 namespace ShopApp.Controllers
 {
@@ -17,7 +17,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductQueryParams productParams)
+        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductQueryParamsResponseDto productParams)
         {
             var products = await _productService.Filter(productParams);
 
