@@ -42,12 +42,13 @@ namespace ShopApp.Application.Services.ProductServices
                            || p.Description.Contains(productParams.Query)
                            || p.Store.Name.Contains(productParams.Query)
                            || p.ProductCategoryId == productParams.CategoryId
-                           || p.StoreId == productParams.StoreId)
-                .Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
-                .Take(pagFilter.PageSize);
+                           || p.StoreId == productParams.StoreId);
 
-            var totalRecords = await _context.Products.CountAsync();
+            var productsPaginated = productsQuery.Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
+                .Take(pagFilter.PageSize).ToList();
+
             var products = await productsQuery.ToListAsync();
+            products = productsPaginated;
 
             if (productParams.Query == string.Empty && productParams.CategoryId == null && productParams.StoreId == null)
             {
@@ -60,7 +61,7 @@ namespace ShopApp.Application.Services.ProductServices
 
             var productsDTO = _mapper.Map<List<GetProductResponseDto>>(products);
 
-            return new PagedResponse<List<GetProductResponseDto>>(productsDTO, pagFilter.PageNumber, pagFilter.PageSize, totalRecords);
+            return new PagedResponse<List<GetProductResponseDto>>(productsDTO, pagFilter.PageNumber, pagFilter.PageSize, productsQuery.Count());
         }
 
         public List<Product> Order(List<Product> products, string sort)
