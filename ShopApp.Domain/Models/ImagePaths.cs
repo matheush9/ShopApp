@@ -1,4 +1,4 @@
-﻿namespace ShopApp.Models
+﻿namespace ShopApp.Domain.Models
 {
     public class ImagePaths
     {

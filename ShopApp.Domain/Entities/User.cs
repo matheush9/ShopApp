@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ShopApp.Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
-namespace ShopApp.Models
+namespace ShopApp.Domain.Entities
 {
     public class User : IEntity
     {
