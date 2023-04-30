@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Application.Interfaces.Stock;
+using ShopApp.Application.ResponseWrappers;
 using ShopApp.Domain.DTOs.Products;
 using ShopApp.Domain.Entities;
 using ShopApp.Infrastructure.Data;
@@ -29,8 +31,10 @@ namespace ShopApp.Application.Services.ProductServices
             return _mapper.Map<GetProductResponseDto>(product);
         }
 
-        public async Task<List<GetProductResponseDto>> Filter(ProductQueryParamsResponseDto productParams)
+        public async Task<PagedResponse<List<GetProductResponseDto>>> Filter(ProductQueryParamsResponseDto productParams, PaginationFilter paginationFilter)
         {
+            var pagFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
+
             var productsQuery = _context.Products
                 .Include(p => p.Store)
 
@@ -38,18 +42,25 @@ namespace ShopApp.Application.Services.ProductServices
                            || p.Description.Contains(productParams.Query)
                            || p.Store.Name.Contains(productParams.Query)
                            || p.ProductCategoryId == productParams.CategoryId
-                           || p.StoreId == productParams.StoreId);
+                           || p.StoreId == productParams.StoreId)
+                .Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
+                .Take(pagFilter.PageSize);
 
+            var totalRecords = await _context.Products.CountAsync();
             var products = await productsQuery.ToListAsync();
 
             if (productParams.Query == string.Empty && productParams.CategoryId == null && productParams.StoreId == null)
             {
-                products = await _context.Products.Include(p => p.Store).ToListAsync();
+                products = await _context.Products.Include(p => p.Store)
+                                    .Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
+                                    .Take(pagFilter.PageSize).ToListAsync();
             }
 
             products = Order(products, productParams.Sort);
 
-            return _mapper.Map<List<GetProductResponseDto>>(products);
+            var productsDTO = _mapper.Map<List<GetProductResponseDto>>(products);
+
+            return new PagedResponse<List<GetProductResponseDto>>(productsDTO, pagFilter.PageNumber, pagFilter.PageSize, totalRecords);
         }
 
         public List<Product> Order(List<Product> products, string sort)

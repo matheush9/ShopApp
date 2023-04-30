@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Domain.DTOs.Products;
@@ -17,9 +18,10 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductQueryParamsResponseDto productParams)
+        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductQueryParamsResponseDto productParams,
+            [FromQuery] PaginationFilter paginationFilter)
         {
-            var products = await _productService.Filter(productParams);
+            var products = await _productService.Filter(productParams, paginationFilter);
 
             if (products is null)
                 return NotFound(products);
