@@ -2,6 +2,7 @@
 using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.ProductService;
+using ShopApp.Domain.DTOs.Image;
 using ShopApp.Domain.DTOs.Products;
 
 namespace ShopApp.Controllers
@@ -15,6 +16,17 @@ namespace ShopApp.Controllers
         public ProductController(IGenericService<GetProductResponseDto, AddProductRequestDto> genericService, IProductService productService) : base(genericService)
         {
             _productService = productService;
+        }
+
+        [HttpGet("idList")]
+        public async Task<ActionResult<List<GetImageResponseDto>>> GetProductsByIdsList([FromQuery] List<int> proId)
+        {
+            var products = await _productService.GetProductsByIdsList(proId);
+
+            if (products is null)
+                return NotFound(products);
+
+            return Ok(products);
         }
 
         [HttpGet("filter")]

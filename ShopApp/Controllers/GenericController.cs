@@ -13,7 +13,6 @@ namespace ShopApp.Controllers
             _genericService = genericService;
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<T>> GetById([FromRoute] int id)
         {

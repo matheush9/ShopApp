@@ -133,5 +133,18 @@ namespace ShopApp.Application.Services.ProductServices
 
             return _mapper.Map<GetProductResponseDto>(product);
         }
+
+        public async Task<List<GetProductResponseDto>> GetProductsByIdsList(List<int> idList)
+        {
+            var products = new List<Product>();
+
+            if (idList != null && idList.Count > 0)
+            {
+                products = await _context.Products.Where(p => idList.Contains(p.Id)).ToListAsync();
+                products = products.OrderBy(p => idList.IndexOf(p.Id)).ToList();
+            }
+
+            return _mapper.Map<List<GetProductResponseDto>>(products);
+        }
     }
 }
