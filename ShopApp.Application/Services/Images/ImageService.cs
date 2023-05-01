@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Interfaces.Images;
@@ -52,11 +52,16 @@ namespace ShopApp.Application.Services.Images
 
         public async Task<List<GetImageResponseDto>> GetImagesByProductIdsList(List<int> productIdsList)
         {
-            var images = new List<Image>();
+            var images = new List<Image?>();
 
             if (productIdsList != null && productIdsList.Count > 0)
             {
-                images = await _context.Images.Where(i => productIdsList.Contains(i.ProductId ?? -1)).ToListAsync();
+                images = await _context.Images
+                  .Where(i => productIdsList.Contains(i.ProductId ?? -1))
+                  .GroupBy(i => i.ProductId)
+                  .Select(g => g.FirstOrDefault())
+                  .ToListAsync();
+
                 images = images.OrderBy(i => productIdsList.IndexOf(i.ProductId ?? -1)).ToList();
             }
 
