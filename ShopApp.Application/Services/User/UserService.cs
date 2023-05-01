@@ -49,7 +49,7 @@ namespace ShopApp.Application.Services.UserServices
             return _mapper.Map<GetUserResponseDto>(user);
         }
 
-        public async Task<GetUserResponseDto> UpdateUser(int id, AddUserRequestDto newUser)
+        public async Task<GetUserResponseDto> UpdateUser(int id, EditUserRequestDto newUser)
         {
             var user = await _context.Users.FindAsync(id);
 

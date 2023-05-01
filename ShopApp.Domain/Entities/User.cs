@@ -15,6 +15,7 @@ namespace ShopApp.Domain.Entities
         //Relationships
 
         public Store Store { get; set; }
-        public Customer Customer { get; set; }    
+        public Customer Customer { get; set; }
+        public List<Image> Images { get; set; }
     }
 }

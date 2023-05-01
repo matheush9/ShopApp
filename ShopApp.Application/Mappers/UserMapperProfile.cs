@@ -11,6 +11,7 @@ namespace ShopApp.Domain.Mapper
             CreateMap<User, GetUserResponseDto>();
             CreateMap<User, AddUserRequestDto>();
             CreateMap<AddUserRequestDto, User>();
+            CreateMap<EditUserRequestDto, User>();
         }
     }
 }

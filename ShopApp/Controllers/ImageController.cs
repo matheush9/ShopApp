@@ -50,6 +50,17 @@ namespace ShopApp.Controllers
             return Ok(image);
         }
 
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetImageByUserId([FromRoute] int id)
+        {
+            var image = await _imageService.GetImageByUser(id);
+
+            if (image is null)
+                return NotFound(image);
+
+            return Ok(image);
+        }
+
         [HttpGet("products/list")]
         public async Task<ActionResult<List<GetImageResponseDto>>> GetImagesByProductIdsList([FromQuery] List<int> proId)
         {
@@ -69,10 +80,8 @@ namespace ShopApp.Controllers
             if (newImage is null)
                 return BadRequest(newImage);
 
-            if (newImage.ProductId is null)
-            {
-                return BadRequest("The image must have a product associated.");
-            }
+            if (newImage.ProductId == null && newImage.UserId == null)
+                return BadRequest("The image must have a product or user associated.");
 
             return Ok(await _imageService.Add(newImage, imageFile));
         }

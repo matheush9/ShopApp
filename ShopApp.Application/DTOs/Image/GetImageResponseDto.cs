@@ -7,5 +7,6 @@
         public string SmallImagePath { get; set; }
         public string LargeImagePath { get; set; }
         public int ProductId { get; set; }
+        public int UserId { get; set; }
     }
 }

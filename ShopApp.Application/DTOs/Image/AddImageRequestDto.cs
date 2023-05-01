@@ -4,5 +4,6 @@
     {
         public string Name { get; set; }
         public int ProductId { get; set; }
+        public string ImageId { get; set; }
     }
 }

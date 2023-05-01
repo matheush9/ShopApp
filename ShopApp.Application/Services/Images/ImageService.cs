@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Interfaces.Images;
@@ -39,6 +39,13 @@ namespace ShopApp.Application.Services.Images
         public async Task<GetImageResponseDto> GetImageByProduct(int id)
         {
             var image = await _context.Images.FirstOrDefaultAsync(p => p.ProductId == id);
+
+            return _mapper.Map<GetImageResponseDto>(image);
+        }
+
+        public async Task<GetImageResponseDto> GetImageByUser(int id)
+        {
+            var image = await _context.Images.FirstOrDefaultAsync(i => i.UserId == id);
 
             return _mapper.Map<GetImageResponseDto>(image);
         }

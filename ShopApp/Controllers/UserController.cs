@@ -16,7 +16,6 @@ namespace ShopApp.Controllers
             _userService = userService;
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUserById([FromRoute] int id)
         {
@@ -55,7 +54,7 @@ namespace ShopApp.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser([FromRoute] int id, AddUserRequestDto newUser)
+        public async Task<ActionResult> UpdateUser([FromRoute] int id, EditUserRequestDto newUser)
         {
             var authenticatedUserId = int.Parse(User.FindFirst("UserId").Value);
 
