@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopApp.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using ShopApp.Infrastructure.Data;
 namespace ShopApp.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230501131007_image - userid")]
+    partial class imageuserid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace ShopApp.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Image", b =>
@@ -80,7 +83,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Item", b =>
@@ -109,7 +112,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Order", b =>
@@ -137,7 +140,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Product", b =>
@@ -177,7 +180,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.ProductCategory", b =>
@@ -197,7 +200,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Stock", b =>
@@ -226,7 +229,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Stocks", (string)null);
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Store", b =>
@@ -258,7 +261,7 @@ namespace ShopApp.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Stores", (string)null);
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.User", b =>
@@ -286,7 +289,7 @@ namespace ShopApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ShopApp.Domain.Entities.Customer", b =>
