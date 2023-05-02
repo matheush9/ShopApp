@@ -7,5 +7,6 @@
         public int? StoreId { get; set; }
         public string Sort { get; set; } = string.Empty;
         public decimal? Price { get; set; }
+        public string? PriceRange { get; set; }
     }
 }

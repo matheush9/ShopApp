@@ -35,14 +35,27 @@ namespace ShopApp.Application.Services.ProductServices
         {
             var pagFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
 
+            decimal minPrice = new();
+            decimal maxPrice = new();
+
+            if (productParams.PriceRange != null)
+            {
+                minPrice = decimal.Parse(productParams.PriceRange.Split('.')[0]);
+                maxPrice = decimal.Parse(productParams.PriceRange.Split('.')[1]);
+            }
+
             var productsQuery = _context.Products
                 .Include(p => p.Store)
 
-                .Where(p => p.Name.Contains(productParams.Query)
-                           || p.Description.Contains(productParams.Query)
-                           || p.Store.Name.Contains(productParams.Query)
-                           || p.ProductCategoryId == productParams.CategoryId
-                           || p.StoreId == productParams.StoreId);
+            .Where(p =>
+                (string.IsNullOrEmpty(productParams.Query)
+                    || p.Name.Contains(productParams.Query)
+                    || p.Description.Contains(productParams.Query)
+                    || p.Store.Name.Contains(productParams.Query))
+                && (productParams.CategoryId == null || p.ProductCategoryId == productParams.CategoryId)
+                && (productParams.StoreId == null || p.StoreId == productParams.StoreId)
+                && (String.IsNullOrEmpty(productParams.PriceRange) || p.Price >= minPrice && p.Price <= maxPrice)
+            );
 
             var productsPaginated = productsQuery.Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
                 .Take(pagFilter.PageSize).ToList();
