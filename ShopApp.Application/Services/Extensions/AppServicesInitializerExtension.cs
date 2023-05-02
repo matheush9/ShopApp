@@ -7,6 +7,7 @@ using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.Images.ImageUploadService;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Application.Interfaces.Stock;
+using ShopApp.Application.Interfaces.Store;
 using ShopApp.Application.Interfaces.User;
 using ShopApp.Application.Services.CustomerServices;
 using ShopApp.Application.Services.Images;
@@ -52,6 +53,7 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IImageUploadService, ImageUploadService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IStoreService, StoreService>();
         }
 
         public static void RegisterAuthentication(IServiceCollection services)
