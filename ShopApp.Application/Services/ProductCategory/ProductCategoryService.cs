@@ -23,5 +23,11 @@ namespace ShopApp.Application.Services.ProductCategory
 
             return _mapper.Map<GetProductCategoryResponseDto>(productCategory);
         }
+
+        public async Task<List<GetProductCategoryResponseDto>> GetAllProductCategories()
+        {
+            var categories = await _context.ProductCategories.ToListAsync();
+            return _mapper.Map<List<GetProductCategoryResponseDto>>(categories);
+        }
     }
 }
