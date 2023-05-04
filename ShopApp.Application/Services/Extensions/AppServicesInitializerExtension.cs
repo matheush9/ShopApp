@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.Images.ImageUploadService;
+using ShopApp.Application.Interfaces.ProductCategory;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Application.Interfaces.Stock;
 using ShopApp.Application.Interfaces.Store;
@@ -15,6 +16,7 @@ using ShopApp.Application.Services.Images.ImageUploadService;
 using ShopApp.Application.Services.ItemServices;
 using ShopApp.Application.Services.OrderServices;
 using ShopApp.Application.Services.PrivateKey;
+using ShopApp.Application.Services.ProductCategory;
 using ShopApp.Application.Services.ProductServices;
 using ShopApp.Application.Services.StockServices;
 using ShopApp.Application.Services.StoreServices;
@@ -54,6 +56,7 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<IProductCategoryService, ProductCategoryService>();
         }
 
         public static void RegisterAuthentication(IServiceCollection services)
