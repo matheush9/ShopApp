@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ShopApp.Application.Interfaces.Customer;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.Images.ImageUploadService;
@@ -57,6 +58,7 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IProductCategoryService, ProductCategoryService>();
+            services.AddScoped<ICustomerService, CustomerService>();
         }
 
         public static void RegisterAuthentication(IServiceCollection services)
