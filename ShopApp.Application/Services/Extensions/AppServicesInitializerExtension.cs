@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -6,6 +6,7 @@ using ShopApp.Application.Interfaces.Customer;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.Images.ImageUploadService;
+using ShopApp.Application.Interfaces.Item;
 using ShopApp.Application.Interfaces.Order;
 using ShopApp.Application.Interfaces.ProductCategory;
 using ShopApp.Application.Interfaces.ProductService;
@@ -60,6 +61,7 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IProductCategoryService, ProductCategoryService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICustomerService, CustomerService>();
         }
 

@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Interfaces.Generic;
+using ShopApp.Application.Interfaces.Item;
 using ShopApp.Domain.DTOs.Item;
 using ShopApp.Domain.Entities;
 using ShopApp.Infrastructure.Data;
 
 namespace ShopApp.Application.Services.ItemServices
 {
-    public class ItemService : IGenericService<GetItemResponseDto, AddItemRequestDto>
+    public class ItemService : IGenericService<GetItemResponseDto, AddItemRequestDto>, IItemService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -23,6 +24,13 @@ namespace ShopApp.Application.Services.ItemServices
             var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
 
             return _mapper.Map<GetItemResponseDto>(item);
+        }
+
+        public async Task<List<GetItemResponseDto>> GetItemsByOrderId(int id)
+        {
+            var items = await _context.Items.Where(i => i.OrderId == id).ToListAsync();
+
+            return _mapper.Map<List<GetItemResponseDto>>(items);
         }
 
         public async Task Add(AddItemRequestDto newItem)
