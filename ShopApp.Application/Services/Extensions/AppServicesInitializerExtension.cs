@@ -6,6 +6,7 @@ using ShopApp.Application.Interfaces.Customer;
 using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.Images.ImageUploadService;
+using ShopApp.Application.Interfaces.Order;
 using ShopApp.Application.Interfaces.ProductCategory;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Application.Interfaces.Stock;
@@ -58,6 +59,7 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IProductCategoryService, ProductCategoryService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICustomerService, CustomerService>();
         }
 
