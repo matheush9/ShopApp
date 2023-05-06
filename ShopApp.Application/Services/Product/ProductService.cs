@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.Generic;
@@ -99,6 +99,9 @@ namespace ShopApp.Application.Services.ProductServices
         {
             var product = _mapper.Map<Product>(newProduct);
             _context.Products.Add(product);
+
+            var store = await _context.Stores.FindAsync(product.StoreId);
+            store.ProductCatalogCount++;
 
             await _context.SaveChangesAsync();
 
