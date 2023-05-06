@@ -44,6 +44,12 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/images/users/small"
 });
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Default/")),
+    RequestPath = "/images/default"
+});
+
 app.UseHttpsRedirection();
 
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());

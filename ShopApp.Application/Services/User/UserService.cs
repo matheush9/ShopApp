@@ -30,10 +30,22 @@ namespace ShopApp.Application.Services.UserServices
 
         public async Task AddUser(AddUserRequestDto newUser)
         {
+            var user = _mapper.Map<User>(newUser);
             newUser.Password = PasswordHasherService.HashPassword(newUser.Password);
 
-            _context.Users.Add(_mapper.Map<User>(newUser));
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            //
+            Image newImage = new()
+            {
+                Name = string.Empty,
+                UserId = user.Id,
+            };
+
+            _context.Images.Add(newImage);
+            await _context.SaveChangesAsync();
+            //
         }
 
         public async Task<GetUserResponseDto> DeleteUser(int id)

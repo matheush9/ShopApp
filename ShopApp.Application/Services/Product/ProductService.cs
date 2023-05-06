@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.Generic;
@@ -105,6 +105,17 @@ namespace ShopApp.Application.Services.ProductServices
 
             await _context.SaveChangesAsync();
 
+            //
+            Image newImage = new()
+            {
+                Name = string.Empty,
+                ProductId = product.Id
+            };
+
+            _context.Images.Add(newImage);
+            await _context.SaveChangesAsync();
+            //
+
             await _stockService.AddStock(product.Id, product.StoreId);
         }
 
@@ -115,6 +126,8 @@ namespace ShopApp.Application.Services.ProductServices
             if (product != null)
             {
                 _context.Products.Remove(product);
+                var store = await _context.Stores.FindAsync(product.StoreId);
+                store.ProductCatalogCount--;
                 await _context.SaveChangesAsync();
             }
 
