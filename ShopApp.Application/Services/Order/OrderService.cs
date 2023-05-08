@@ -8,7 +8,7 @@ using ShopApp.Infrastructure.Data;
 
 namespace ShopApp.Application.Services.OrderServices
 {
-    public class OrderService : IGenericService<GetOrderResponseDto, AddOrderRequestDto>, IOrderService
+    public class OrderService : IOrderService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -33,10 +33,13 @@ namespace ShopApp.Application.Services.OrderServices
             return _mapper.Map<List<GetOrderResponseDto>>(orders);
         }
 
-        public async Task Add(AddOrderRequestDto newOrder)
+        public async Task<GetOrderResponseDto> Add(AddOrderRequestDto newOrder)
         {
-            _context.Orders.Add(_mapper.Map<Order>(newOrder));
+            var order = _mapper.Map<Order>(newOrder);
+            await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
+               
+            return _mapper.Map<GetOrderResponseDto>(order);
         }
 
         public async Task<GetOrderResponseDto> Delete(int id)
@@ -58,7 +61,7 @@ namespace ShopApp.Application.Services.OrderServices
 
             if (order != null)
             {
-                order.Status = newOrder.Status;
+                order.CustomerId = newOrder.CustomerId;
 
                 await _context.SaveChangesAsync();
             }

@@ -52,7 +52,6 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IGenericService<GetStoreResponseDto, AddStoreRequestDto>, StoreService>();
             services.AddScoped<IGenericService<GetItemResponseDto, AddItemRequestDto>, ItemService>();
             services.AddScoped<IGenericService<GetCustomerResponseDto, AddCustomerRequestDto>, CustomerService>();
-            services.AddScoped<IGenericService<GetOrderResponseDto, AddOrderRequestDto>, OrderService>();
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IImageUploadService, ImageUploadService>();
