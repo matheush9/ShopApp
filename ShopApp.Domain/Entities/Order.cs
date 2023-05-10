@@ -5,7 +5,7 @@ namespace ShopApp.Domain.Entities
 {
     public class Order : IEntity
     {
-        static readonly string[] OrderStatuses = {"Created, Processing, Completed"};
+        static readonly string[] OrderStatuses = {"Created", "Processing", "Completed"};
 
         [Key]
         public int Id { get; set; }
