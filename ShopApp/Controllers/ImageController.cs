@@ -31,12 +31,12 @@ namespace ShopApp.Controllers
         [HttpGet("product/list/{id}")]
         public async Task<IActionResult> GetImagesByProduct([FromRoute] int id)
         {
-            var image = await _imageService.GetImagesByProduct(id);
+            var images = await _imageService.GetImagesByProduct(id);
 
-            if (image is null)
-                return NotFound(image);
+            if (images is null || images.Count == 0)
+                return NotFound(images);
 
-            return Ok(image);
+            return Ok(images);
         }
 
         [HttpGet("product/{id}")]
@@ -64,12 +64,12 @@ namespace ShopApp.Controllers
         [HttpGet("products/list")]
         public async Task<ActionResult<List<GetImageResponseDto>>> GetImagesByProductIdsList([FromQuery] List<int> proId)
         {
-            var products = await _imageService.GetImagesByProductIdsList(proId);
+            var images = await _imageService.GetImagesByProductIdsList(proId);
 
-            if (products is null)
-                return NotFound(products);
+            if (images is null || images.Count == 0)
+                return NotFound(images);
 
-            return Ok(products);
+            return Ok(images);
         }
 
         [HttpPost]
