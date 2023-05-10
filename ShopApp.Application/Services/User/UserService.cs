@@ -31,7 +31,7 @@ namespace ShopApp.Application.Services.UserServices
         public async Task AddUser(AddUserRequestDto newUser)
         {
             var user = _mapper.Map<User>(newUser);
-            newUser.Password = PasswordHasherService.HashPassword(newUser.Password);
+            user.Password = PasswordHasherService.HashPassword(newUser.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
