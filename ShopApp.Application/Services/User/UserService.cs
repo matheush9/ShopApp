@@ -35,17 +35,6 @@ namespace ShopApp.Application.Services.UserServices
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-
-            //
-            Image newImage = new()
-            {
-                Name = string.Empty,
-                UserId = user.Id,
-            };
-
-            _context.Images.Add(newImage);
-            await _context.SaveChangesAsync();
-            //
         }
 
         public async Task<GetUserResponseDto> DeleteUser(int id)

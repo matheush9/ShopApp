@@ -8,8 +8,8 @@ namespace ShopApp.Domain.Entities
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string SmallImagePath { get; set; } = "/images/default/empty.jpg";
-        public string LargeImagePath { get; set; } = "/images/default/empty.jpg";
+        public string SmallImagePath { get; set; }
+        public string LargeImagePath { get; set; }
 
         // Relationships
         public int? ProductId { get; set; }

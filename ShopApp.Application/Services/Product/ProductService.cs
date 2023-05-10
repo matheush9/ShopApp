@@ -105,17 +105,6 @@ namespace ShopApp.Application.Services.ProductServices
 
             await _context.SaveChangesAsync();
 
-            //
-            Image newImage = new()
-            {
-                Name = string.Empty,
-                ProductId = product.Id
-            };
-
-            _context.Images.Add(newImage);
-            await _context.SaveChangesAsync();
-            //
-
             await _stockService.AddStock(product.Id, product.StoreId);
         }
 
