@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -40,6 +40,7 @@ namespace ShopApp.Application.Services.Extensions
         {
             RegisterCustomServices(services);
             RegisterAuthentication(services);
+            RegisterAuthorization(services);
             RegisterSwagger(services);
             RegisterMapper(services);
 
@@ -62,6 +63,10 @@ namespace ShopApp.Application.Services.Extensions
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddTransient<IAuthorizationHandler, UserAuthorizationHandler>();
+            services.AddTransient<IAuthorizationHandler, CustomerAuthorizationHandler>();
+            services.AddTransient<IAuthorizationHandler, StoreAuthorizationHandler>(); 
+            services.AddTransient<IAuthorizationHandler, OrderAuthorizationHandler>();
         }
 
         public static void RegisterAuthentication(IServiceCollection services)
@@ -81,6 +86,17 @@ namespace ShopApp.Application.Services.Extensions
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });
+        }
+
+        public static void RegisterAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserPolicy", policy => policy.Requirements.Add(new UserRequirement()));
+                options.AddPolicy("CustomerPolicy", policy => policy.Requirements.Add(new CustomerRequirement()));
+                options.AddPolicy("StorePolicy", policy => policy.Requirements.Add(new StoreRequirement()));
+                options.AddPolicy("OrderPolicy", policy => policy.Requirements.Add(new OrderRequirement()));
             });
         }
 
