@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Interfaces.Customer;
-using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Domain.DTOs.Customer;
 using ShopApp.Domain.Entities;
 using ShopApp.Infrastructure.Data;
 
 namespace ShopApp.Application.Services.CustomerServices
 {
-    public class CustomerService : IGenericService<GetCustomerResponseDto, AddCustomerRequestDto>, ICustomerService
+    public class CustomerService: ICustomerService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -33,10 +32,13 @@ namespace ShopApp.Application.Services.CustomerServices
             return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
-        public async Task Add(AddCustomerRequestDto newCustomer)
+        public async Task<GetCustomerResponseDto> Add(AddCustomerRequestDto newCustomer)
         {
-            _context.Customers.Add(_mapper.Map<Customer>(newCustomer));
+            var customer = _mapper.Map<Customer>(newCustomer);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
         public async Task<GetCustomerResponseDto> Delete(int id)

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Order;
 using ShopApp.Domain.DTOs.Order;
 using ShopApp.Domain.Entities;

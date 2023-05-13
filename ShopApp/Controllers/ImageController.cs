@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShopApp.Application.Interfaces.Images;
+using ShopApp.Domain.Common;
 using ShopApp.Domain.DTOs.Image;
 using ShopApp.Domain.Entities;
 
@@ -8,13 +10,15 @@ namespace ShopApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ImageController : Controller
+    public class ImageController : ControllerBase
     {
         private readonly IImageService _imageService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public ImageController(IImageService imageService)
+        public ImageController(IImageService imageService, IAuthorizationService authorizationService)
         {
             _imageService = imageService;
+            _authorizationService = authorizationService;
         }
 
         [HttpGet("{id}")]
@@ -89,6 +93,11 @@ namespace ShopApp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            var getImage = await _imageService.GetById(id);
+
+            if (await Authorize(getImage) is false)
+                return Forbid();
+
             var image = await _imageService.Delete(id);
 
             if (image is null)
@@ -100,12 +109,30 @@ namespace ShopApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, AddImageRequestDto newImage)
         {
+            var getImage = await _imageService.GetById(id);
+
+            if (await Authorize(getImage) is false)
+                return Forbid();
+
             var image = await _imageService.Update(id, newImage);
 
             if (image is null)
                 return NotFound(image);
 
             return Ok(image);
+        }
+
+        [NonAction]
+        public async Task<bool> Authorize(BaseUser baseUser)
+        {
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, baseUser, "UserPolicy");
+
+            if (!authorizationResult.Succeeded)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopApp.Application.Interfaces.Stock;
+using ShopApp.Domain.Common;
 using ShopApp.Domain.DTOs.Stock;
 
 namespace ShopApp.Controllers
@@ -9,10 +11,13 @@ namespace ShopApp.Controllers
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public StockController(IStockService stockService)
+        public StockController(IStockService stockService, IAuthorizationService authorizationService)
         {
             _stockService = stockService;
+            _authorizationService = authorizationService;
+            
         }
 
         [HttpGet("store/{id}")]
@@ -40,12 +45,30 @@ namespace ShopApp.Controllers
         [HttpPut("product/{id}")]
         public async Task<ActionResult<GetStockResponseDto>> UpdateStock([FromRoute] int id, UpdateStockRequest newStock)
         {
+            var getStock = await _stockService.GetStock(id);
+
+            if (await Authorize(getStock) is false)
+                return Forbid();
+
             var stock = await _stockService.UpdateStockByProductId(id, newStock);
 
             if (stock is null)
                 return NotFound(stock);
 
             return Ok(stock);
+        }
+
+        [NonAction]
+        public async Task<bool> Authorize(BaseStore baseStore)
+        {
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, baseStore, "StorePolicy");
+
+            if (!authorizationResult.Succeeded)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

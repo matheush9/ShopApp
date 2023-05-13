@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ShopApp.Application.Authorization.Handlers;
+using ShopApp.Application.Authorization.Requirements;
 using ShopApp.Application.Interfaces.Customer;
-using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.Images.ImageUploadService;
 using ShopApp.Application.Interfaces.Item;
@@ -24,11 +26,6 @@ using ShopApp.Application.Services.ProductServices;
 using ShopApp.Application.Services.StockServices;
 using ShopApp.Application.Services.StoreServices;
 using ShopApp.Application.Services.UserServices;
-using ShopApp.Domain.DTOs.Customer;
-using ShopApp.Domain.DTOs.Item;
-using ShopApp.Domain.DTOs.Order;
-using ShopApp.Domain.DTOs.Products;
-using ShopApp.Domain.DTOs.Store;
 using System.Reflection;
 
 namespace ShopApp.Application.Services.Extensions
@@ -49,10 +46,6 @@ namespace ShopApp.Application.Services.Extensions
 
         public static void RegisterCustomServices(IServiceCollection services)
         {
-            services.AddScoped<IGenericService<GetProductResponseDto, AddProductRequestDto>, ProductService>();
-            services.AddScoped<IGenericService<GetStoreResponseDto, AddStoreRequestDto>, StoreService>();
-            services.AddScoped<IGenericService<GetItemResponseDto, AddItemRequestDto>, ItemService>();
-            services.AddScoped<IGenericService<GetCustomerResponseDto, AddCustomerRequestDto>, CustomerService>();
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IImageUploadService, ImageUploadService>();

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Filters;
-using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Application.Interfaces.Stock;
 using ShopApp.Application.ResponseWrappers;
@@ -11,7 +10,7 @@ using ShopApp.Infrastructure.Data;
 
 namespace ShopApp.Application.Services.ProductServices
 {
-    public class ProductService : IGenericService<GetProductResponseDto, AddProductRequestDto>, IProductService
+    public class ProductService : IProductService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -95,7 +94,7 @@ namespace ShopApp.Application.Services.ProductServices
             return products;
         }
 
-        public async Task Add(AddProductRequestDto newProduct)
+        public async Task<GetProductResponseDto> Add(AddProductRequestDto newProduct)
         {
             var product = _mapper.Map<Product>(newProduct);
             _context.Products.Add(product);
@@ -106,6 +105,8 @@ namespace ShopApp.Application.Services.ProductServices
             await _context.SaveChangesAsync();
 
             await _stockService.AddStock(product.Id, product.StoreId);
+
+            return _mapper.Map<GetProductResponseDto>(product);
         }
 
         public async Task<GetProductResponseDto> Delete(int id)

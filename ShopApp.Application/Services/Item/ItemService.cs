@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShopApp.Application.Interfaces.Generic;
 using ShopApp.Application.Interfaces.Item;
 using ShopApp.Domain.DTOs.Item;
 using ShopApp.Domain.Entities;
@@ -8,7 +7,7 @@ using ShopApp.Infrastructure.Data;
 
 namespace ShopApp.Application.Services.ItemServices
 {
-    public class ItemService : IGenericService<GetItemResponseDto, AddItemRequestDto>, IItemService
+    public class ItemService : IItemService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -33,10 +32,13 @@ namespace ShopApp.Application.Services.ItemServices
             return _mapper.Map<List<GetItemResponseDto>>(items);
         }
 
-        public async Task Add(AddItemRequestDto newItem)
+        public async Task<GetItemResponseDto> Add(AddItemRequestDto newItem)
         {
-            _context.Items.Add(_mapper.Map<Item>(newItem));
+            var item = _mapper.Map<Item>(newItem);
+            _context.Items.Add(item);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<GetItemResponseDto>(item);
         }
 
         public async Task<GetItemResponseDto> Delete(int id)

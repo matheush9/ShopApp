@@ -18,6 +18,13 @@ namespace ShopApp.Application.Services.StockServices
             _context = context;
         }
 
+        public async Task<GetStockResponseDto> GetStock(int id)
+        {
+            var stock = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+
+            return _mapper.Map<GetStockResponseDto>(stock);
+        }
+
         public async Task<List<GetStockResponseDto>> GetAllStocksByStoreId(int id)
         {
             var stocks = await _context.Stocks.Where(s => s.StoreId == id).ToListAsync();
