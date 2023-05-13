@@ -1,6 +1,8 @@
-﻿namespace ShopApp.Domain.DTOs.Stock
+﻿using ShopApp.Domain.Common;
+
+namespace ShopApp.Domain.DTOs.Stock
 {
-    public class GetStockResponseDto
+    public class GetStockResponseDto: BaseStore
     {
         public int Id { get; set; } 
         public int AvailableQuantity { get; set; }
@@ -8,6 +10,5 @@
 
         //Relationships
         public int ProductId { get; set; }
-        public int StoreId { get; set; }
     }
 }

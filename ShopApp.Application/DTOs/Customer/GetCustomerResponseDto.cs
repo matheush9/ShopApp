@@ -1,6 +1,8 @@
-﻿namespace ShopApp.Domain.DTOs.Customer
+﻿using ShopApp.Domain.Common;
+
+namespace ShopApp.Domain.DTOs.Customer
 {
-    public class GetCustomerResponseDto
+    public class GetCustomerResponseDto: BaseUser
     {
         public int Id { get; set; }
 

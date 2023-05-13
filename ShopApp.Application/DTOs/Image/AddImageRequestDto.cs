@@ -1,6 +1,8 @@
-﻿namespace ShopApp.Domain.DTOs.Image
+﻿using ShopApp.Domain.Common;
+
+namespace ShopApp.Domain.DTOs.Image
 {
-    public class AddImageRequestDto
+    public class AddImageRequestDto : BaseUser
     {
         public string Name { get; set; }
         public int ProductId { get; set; }

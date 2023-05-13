@@ -1,7 +1,8 @@
-﻿namespace ShopApp.Domain.DTOs.Order
+﻿using ShopApp.Domain.Common;
+
+namespace ShopApp.Domain.DTOs.Order
 {
-    public class AddOrderRequestDto
+    public class AddOrderRequestDto: BaseCustomer
     {
-        public int CustomerId { get; set; }
     }
 }
