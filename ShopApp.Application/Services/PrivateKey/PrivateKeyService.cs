@@ -1,18 +1,14 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 
 namespace ShopApp.Application.Services.PrivateKey
 {
     public static class PrivateKeyService
     {
-        public readonly static byte[] privateKey = GeneratePrivateKey();
+        public readonly static byte[] privateKey = GetPrivateKey();
 
-        private static byte[] GeneratePrivateKey()
+        private static byte[] GetPrivateKey()
         {
-            var rsa = new RSACryptoServiceProvider(2048);
-            string teste = "efqew12xo3ij1ik2cn4oçxxxx5xx4x1o24lkfq";
-            byte[] bytes = Encoding.ASCII.GetBytes(teste);
-            return bytes;
+            return Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_PRIVATE_KEY"));
         }
     }
 }
