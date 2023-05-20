@@ -18,7 +18,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ApplyMigration();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseStaticFiles(new StaticFileOptions

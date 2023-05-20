@@ -1,13 +1,29 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using ShopApp.Domain.Entities;
 
 namespace ShopApp.Infrastructure.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) :base(options)
+        public DataContext()
         {
-            
+
+        }
+
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+            if (Database.GetService<IDatabaseCreator>() is RelationalDatabaseCreator databaseCreator)
+            {
+                if (!databaseCreator.Exists())
+                {
+                    databaseCreator.Create();
+
+                    if (!databaseCreator.HasTables())
+                        databaseCreator.CreateTables();
+                }
+            }
         }
 
         public DbSet<Product> Products => Set<Product>();
@@ -34,7 +50,7 @@ namespace ShopApp.Infrastructure.Data
             modelBuilder.Entity<Store>()
                 .HasMany(s => s.Stocks)
                 .WithOne(s => s.Store)
-                .Metadata.DeleteBehavior = DeleteBehavior.Restrict; 
+                .Metadata.DeleteBehavior = DeleteBehavior.Restrict;
         }
     }
 }
