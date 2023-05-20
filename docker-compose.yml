@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  shopapp.webapi:
+    ports:
+      - 8001:80
+    image: ${DOCKER_REGISTRY-}shopappwebapi
+    environment: 
+      JWT_PRIVATE_KEY: ${ENV_JWT_PKEY}
+    build:
+      context: .
+      dockerfile: ShopApp/Dockerfile
+    depends_on:
+      - db
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - SA_PASSWORD=${ENV_DB_PASSWORD} 
+      - ACCEPT_EULA=Y
