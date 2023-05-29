@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopApp.Application.DTOs.ProductCategory;
 using ShopApp.Application.Interfaces.ProductCategory;
 
 namespace ShopApp.WebAPI.Controllers
@@ -34,6 +35,13 @@ namespace ShopApp.WebAPI.Controllers
                 return NotFound(categories);
 
             return Ok(categories);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddCategory(AddProductCategoryRequestDTO newCategory)
+        {
+            await _productCategoryService.AddProductCategory(newCategory);
+            return Ok();
         }
     }
 }
