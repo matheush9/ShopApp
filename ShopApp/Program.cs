@@ -12,6 +12,8 @@ builder.Services.RegisterApplicationServices();
 
 var app = builder.Build();
 
+app.MigrateDatabase();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 

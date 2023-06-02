@@ -7,23 +7,8 @@ namespace ShopApp.Infrastructure.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext()
-        {
-
-        }
-
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            if (Database.GetService<IDatabaseCreator>() is RelationalDatabaseCreator databaseCreator)
-            {
-                if (!databaseCreator.Exists())
-                {
-                    databaseCreator.Create();
-
-                    if (!databaseCreator.HasTables())
-                        databaseCreator.CreateTables();
-                }
-            }
         }
 
         public DbSet<Product> Products => Set<Product>();
