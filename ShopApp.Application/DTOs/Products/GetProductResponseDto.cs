@@ -1,4 +1,5 @@
 ﻿using ShopApp.Domain.Common;
+using ShopApp.Domain.DTOs.Image;
 
 namespace ShopApp.Domain.DTOs.Products
 {
@@ -9,5 +10,6 @@ namespace ShopApp.Domain.DTOs.Products
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int ProductCategoryId { get; set; }
+        public List<GetImageResponseDto> Images { get; set; }
     }
 }

@@ -77,7 +77,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("idList")]
-        public async Task<ActionResult<List<GetImageResponseDto>>> GetProductsByIdsList([FromQuery] List<int> proId)
+        public async Task<ActionResult<List<GetProductResponseDto>>> GetProductsByIdsList([FromQuery] List<int> proId)
         {
             var products = await _productService.GetProductsByIdsList(proId);
 

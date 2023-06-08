@@ -25,7 +25,7 @@ namespace ShopApp.Application.Services.ProductServices
 
         public async Task<GetProductResponseDto> GetById(int id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _context.Products.Include(i => i.Images).FirstOrDefaultAsync(x => x.Id == id);
 
             return _mapper.Map<GetProductResponseDto>(product);
         }
@@ -44,8 +44,7 @@ namespace ShopApp.Application.Services.ProductServices
             }
 
             var productsQuery = _context.Products
-                .Include(p => p.Store)
-
+                .Include(i => i.Images)
             .Where(p =>
                 (string.IsNullOrEmpty(productParams.Query)
                     || p.Name.Contains(productParams.Query)
@@ -159,7 +158,7 @@ namespace ShopApp.Application.Services.ProductServices
 
             if (idList != null && idList.Count > 0)
             {
-                products = await _context.Products.Where(p => idList.Contains(p.Id)).ToListAsync();
+                products = await _context.Products.Where(p => idList.Contains(p.Id)).Include(i => i.Images).ToListAsync();
                 products = products.OrderBy(p => idList.IndexOf(p.Id)).ToList();
             }
 
