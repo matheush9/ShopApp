@@ -7,6 +7,8 @@ services:
     image: ${DOCKER_REGISTRY-}shopappwebapi
     environment: 
       JWT_PRIVATE_KEY: ${ENV_JWT_PKEY}
+    volumes:
+      - ./ShopApp/wwwroot:/app/wwwroot
     build:
       context: .
       dockerfile: ShopApp/Dockerfile
