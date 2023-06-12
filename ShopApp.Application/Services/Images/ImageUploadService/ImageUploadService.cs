@@ -31,20 +31,20 @@ namespace ShopApp.Application.Services.Images.ImageUploadService
             string path = string.Empty;
 
             if (image.FileName.Contains("-product"))
-                path = "/products";
+                path = "/Products";
             else if (image.FileName.Contains("-user"))
-                path = "/users";
+                path = "/Users";
 
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentException("Invalid file name! Must have the -product or -user tag.");
 
-            path += smallImage ? "/small" : "/large";
+            path += smallImage ? "/Small" : "/Large";
 
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images" + path);
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images" + path);
             string filename = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
 
             string localPath = Path.Combine(fullPath, filename);
-            string remotePath = "/images" + path + "/" + filename;
+            string remotePath = "/Images" + path + "/" + filename;
 
             return new ImagePaths
             {
