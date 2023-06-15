@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShopApp.Application.Interfaces.Images;
+using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Domain.Common;
 using ShopApp.Domain.DTOs.Image;
+using ShopApp.Domain.DTOs.Products;
 using ShopApp.Domain.Entities;
 
 namespace ShopApp.Controllers
@@ -14,11 +17,13 @@ namespace ShopApp.Controllers
     {
         private readonly IImageService _imageService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IProductService _productService;
 
-        public ImageController(IImageService imageService, IAuthorizationService authorizationService)
+        public ImageController(IImageService imageService, IAuthorizationService authorizationService, IProductService productService)
         {
             _imageService = imageService;
             _authorizationService = authorizationService;
+            _productService = productService;
         }
 
         [HttpGet("{id}")]
@@ -123,10 +128,20 @@ namespace ShopApp.Controllers
         }
 
         [NonAction]
-        public async Task<bool> Authorize(BaseUser baseUser)
+        public async Task<bool> Authorize(GetImageResponseDto image)
         {
-            var authorizationResult = await _authorizationService.AuthorizeAsync(User, baseUser, "UserPolicy");
+            AuthorizationResult authorizationResult;
 
+            if (image.ProductId == 0)
+            {
+                authorizationResult = await _authorizationService.AuthorizeAsync(User, image, "UserPolicy");
+            }
+            else
+            {
+                var product = await _productService.GetById(image.ProductId);
+                authorizationResult = await _authorizationService.AuthorizeAsync(User, product, "StorePolicy");
+            }
+             
             if (!authorizationResult.Succeeded)
             {
                 return false;
