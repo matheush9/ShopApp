@@ -50,7 +50,7 @@ namespace ShopApp.Application.Services.ProductServices
                     || p.Name.Contains(productParams.Query)
                     || p.Description.Contains(productParams.Query)
                     || p.Store.Name.Contains(productParams.Query))
-                && (productParams.CategoriesId == null || productParams.CategoriesId.Contains(p.ProductCategoryId))
+                && (productParams.CategoryId == null || p.ProductCategoryId == productParams.CategoryId)
                 && (productParams.StoreId == null || p.StoreId == productParams.StoreId)
                 && (String.IsNullOrEmpty(productParams.PriceRange) || p.Price >= minPrice && p.Price <= maxPrice)
             );
@@ -61,7 +61,7 @@ namespace ShopApp.Application.Services.ProductServices
             var products = await productsQuery.ToListAsync();
             products = productsPaginated;
 
-            if (productParams.Query == string.Empty && productParams.CategoriesId == null && productParams.StoreId == null)
+            if (productParams.Query == string.Empty && productParams.CategoryId == null && productParams.StoreId == null)
             {
                 products = await _context.Products.Include(p => p.Store)
                                     .Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
