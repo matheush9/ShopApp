@@ -1,12 +1,9 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShopApp.Application.Interfaces.Images;
 using ShopApp.Application.Interfaces.ProductService;
-using ShopApp.Domain.Common;
 using ShopApp.Domain.DTOs.Image;
-using ShopApp.Domain.DTOs.Products;
 using ShopApp.Domain.Entities;
 
 namespace ShopApp.Controllers
@@ -37,28 +34,6 @@ namespace ShopApp.Controllers
             return Ok(image);
         }
 
-        [HttpGet("product/list/{id}")]
-        public async Task<IActionResult> GetImagesByProduct([FromRoute] int id)
-        {
-            var images = await _imageService.GetImagesByProduct(id);
-
-            if (images is null || images.Count == 0)
-                return NotFound(images);
-
-            return Ok(images);
-        }
-
-        [HttpGet("product/{id}")]
-        public async Task<IActionResult> GetImageByProductId([FromRoute] int id)
-        {
-            var image = await _imageService.GetImageByProduct(id);
-
-            if (image is null)
-                return NotFound(image);
-
-            return Ok(image);
-        }
-
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetImageByUserId([FromRoute] int id)
         {
@@ -68,17 +43,6 @@ namespace ShopApp.Controllers
                 return NotFound(image);
 
             return Ok(image);
-        }
-
-        [HttpGet("products/list")]
-        public async Task<ActionResult<List<GetImageResponseDto>>> GetImagesByProductIdsList([FromQuery] List<int> proId)
-        {
-            var images = await _imageService.GetImagesByProductIdsList(proId);
-
-            if (images is null || images.Count == 0)
-                return NotFound(images);
-
-            return Ok(images);
         }
 
         [HttpPost]

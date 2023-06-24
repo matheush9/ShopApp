@@ -1,4 +1,6 @@
-﻿namespace ShopApp.Domain.DTOs.User
+﻿using ShopApp.Domain.DTOs.Image;
+
+namespace ShopApp.Domain.DTOs.User
 {
     public class GetUserResponseDto
     {
@@ -6,5 +8,6 @@
         public string Name { get; set; }
         public string Email { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public List<GetImageResponseDto> Images { get; set; }
     }
 }

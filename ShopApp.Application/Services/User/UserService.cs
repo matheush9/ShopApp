@@ -23,7 +23,7 @@ namespace ShopApp.Application.Services.UserServices
 
         public async Task<GetUserResponseDto> GetUserById(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users.Include(i => i.Images).FirstOrDefaultAsync(u => u.Id == id);
 
             return _mapper.Map<GetUserResponseDto>(user);
         }

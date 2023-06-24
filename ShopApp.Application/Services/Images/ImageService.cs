@@ -29,43 +29,11 @@ namespace ShopApp.Application.Services.Images
             return _mapper.Map<GetImageResponseDto>(image);
         }
 
-        public async Task<List<GetImageResponseDto>> GetImagesByProduct(int id)
-        {
-            var images = await _context.Images.Where(p => p.ProductId == id).ToListAsync();
-
-            return _mapper.Map<List<GetImageResponseDto>>(images);
-        }
-
-        public async Task<GetImageResponseDto> GetImageByProduct(int id)
-        {
-            var image = await _context.Images.FirstOrDefaultAsync(p => p.ProductId == id);
-
-            return _mapper.Map<GetImageResponseDto>(image);
-        }
-
         public async Task<GetImageResponseDto> GetImageByUser(int id)
         {
             var image = await _context.Images.FirstOrDefaultAsync(i => i.UserId == id);
 
             return _mapper.Map<GetImageResponseDto>(image);
-        }
-
-        public async Task<List<GetImageResponseDto>> GetImagesByProductIdsList(List<int> productIdsList)
-        {
-            var images = new List<Image?>();
-
-            if (productIdsList != null && productIdsList.Count > 0)
-            {
-                images = await _context.Images
-                  .Where(i => productIdsList.Contains(i.ProductId ?? -1))
-                  .GroupBy(i => i.ProductId)
-                  .Select(g => g.FirstOrDefault())
-                  .ToListAsync();
-
-                images = images.OrderBy(i => productIdsList.IndexOf(i.ProductId ?? -1)).ToList();
-            }
-
-            return _mapper.Map<List<GetImageResponseDto>>(images);
         }
 
         public async Task<GetImageResponseDto> Add(Image newImage, IFormFile imageFile)
