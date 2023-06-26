@@ -7,6 +7,7 @@ namespace ShopApp.Application.Interfaces.Item
         Task<GetItemResponseDto> GetById(int id);
         Task<List<GetItemResponseDto>> GetItemsByOrderId(int id);
         Task<GetItemResponseDto> Add(AddItemRequestDto newItem);
+        Task<List<GetItemResponseDto>> AddItemsList(List<AddItemRequestDto> itemsList);
         Task<GetItemResponseDto> Delete(int id);
         Task<GetItemResponseDto> Update(int id, AddItemRequestDto newItem);
     }

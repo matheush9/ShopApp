@@ -41,6 +41,15 @@ namespace ShopApp.Application.Services.ItemServices
             return _mapper.Map<GetItemResponseDto>(item);
         }
 
+        public async Task<List<GetItemResponseDto>> AddItemsList(List<AddItemRequestDto> itemsList)
+        {
+            var mappedList = itemsList.Select(_mapper.Map<Item>).ToList();
+            _context.Items.AddRange(mappedList);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<List<GetItemResponseDto>>(mappedList);
+        }
+
         public async Task<GetItemResponseDto> Delete(int id)
         {
             var item = await _context.Items.FindAsync(id);

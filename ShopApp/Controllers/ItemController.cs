@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ShopApp.Application.Interfaces.Item;
 using ShopApp.Domain.Common;
 using ShopApp.Domain.DTOs.Item;
-using ShopApp.Domain.DTOs.Store;
 
 namespace ShopApp.Controllers
 {
@@ -21,7 +20,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetStoreResponseDto>> GetById([FromRoute] int id)
+        public async Task<ActionResult<GetItemResponseDto>> GetById([FromRoute] int id)
         {
             var item = await _itemService.GetById(id);
 
@@ -32,7 +31,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("order/{id}")]
-        public async Task<ActionResult> GetItemsByOrderId([FromRoute] int id)
+        public async Task<ActionResult<List<GetItemResponseDto>>> GetItemsByOrderId([FromRoute] int id)
         {
             var items = await _itemService.GetItemsByOrderId(id);
 
@@ -43,7 +42,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetStoreResponseDto>> Add([FromBody] AddItemRequestDto newItem)
+        public async Task<ActionResult<GetItemResponseDto>> Add([FromBody] AddItemRequestDto newItem)
         {
             if (await Authorize(newItem) is false)
                 return Forbid();
@@ -52,9 +51,21 @@ namespace ShopApp.Controllers
             return Ok();
         }
 
+        [HttpPost("list")]
+        public async Task<ActionResult<List<GetItemResponseDto>>> AddItemsList([FromBody] List<AddItemRequestDto> itemsList)
+        {
+            foreach (var item in itemsList)
+            {
+                if (await Authorize(item) is false)
+                    return Forbid();
+            }
+
+            return Ok(await _itemService.AddItemsList(itemsList));
+        }
+
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GetStoreResponseDto>> Delete([FromRoute] int id)
+        public async Task<ActionResult<GetItemResponseDto>> Delete([FromRoute] int id)
         {
             var getItem = await _itemService.GetById(id);
 
@@ -71,7 +82,7 @@ namespace ShopApp.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetStoreResponseDto>> Update([FromRoute] int id, AddItemRequestDto newItem)
+        public async Task<ActionResult<GetItemResponseDto>> Update([FromRoute] int id, AddItemRequestDto newItem)
         {
             var getItem = await _itemService.GetById(id);
 
