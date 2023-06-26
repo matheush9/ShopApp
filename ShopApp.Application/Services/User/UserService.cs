@@ -52,7 +52,7 @@ namespace ShopApp.Application.Services.UserServices
 
         public async Task<GetUserResponseDto> UpdateUser(int id, EditUserRequestDto newUser)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(i => i.Images).FirstAsync(u => u.Id == id);
 
             if (user != null)
             {

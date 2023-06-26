@@ -125,7 +125,7 @@ namespace ShopApp.Application.Services.ProductServices
 
         public async Task<GetProductResponseDto> Update(int id, AddProductRequestDto newProduct)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(i => i.Images).FirstAsync(p => p.Id == id);
 
             if (product != null)
             {
