@@ -6,7 +6,7 @@ namespace ShopApp.Application.Interfaces.User
     public interface IUserService
     {
         Task<GetUserResponseDto> GetUserById(int id);
-        Task AddUser(AddUserRequestDto newUser);
+        Task<GetUserResponseDto> AddUser(AddUserRequestDto newUser);
         Task<GetUserResponseDto> DeleteUser(int id);
         Task<GetUserResponseDto> UpdateUser(int id, EditUserRequestDto newUser);
         Task<JwtTokenResponseDto> Authenticate(AddUserRequestDto userRequest);

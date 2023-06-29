@@ -23,18 +23,24 @@ namespace ShopApp.Application.Services.UserServices
 
         public async Task<GetUserResponseDto> GetUserById(int id)
         {
-            var user = await _context.Users.Include(i => i.Images).FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users
+                .Include(i => i.Images)
+                .Include(s => s.Store)
+                .Include(c => c.Customer)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             return _mapper.Map<GetUserResponseDto>(user);
         }
 
-        public async Task AddUser(AddUserRequestDto newUser)
+        public async Task<GetUserResponseDto> AddUser(AddUserRequestDto newUser)
         {
             var user = _mapper.Map<User>(newUser);
             user.Password = PasswordHasherService.HashPassword(newUser.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<GetUserResponseDto>(user);
         }
 
         public async Task<GetUserResponseDto> DeleteUser(int id)
@@ -52,7 +58,11 @@ namespace ShopApp.Application.Services.UserServices
 
         public async Task<GetUserResponseDto> UpdateUser(int id, EditUserRequestDto newUser)
         {
-            var user = await _context.Users.Include(i => i.Images).FirstAsync(u => u.Id == id);
+            var user = await _context.Users
+                .Include(i => i.Images)
+                .Include(s => s.Store)
+                .Include(c => c.Customer)
+                .FirstAsync(u => u.Id == id);
 
             if (user != null)
             {

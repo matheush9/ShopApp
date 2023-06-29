@@ -29,10 +29,9 @@ namespace ShopApp.Controllers
 
         
         [HttpPost]
-        public async Task<ActionResult> Add([FromBody] AddUserRequestDto newUser)
+        public async Task<ActionResult<GetUserResponseDto>> Add([FromBody] AddUserRequestDto newUser)
         {
-            await _userService.AddUser(newUser);
-            return Ok();
+            return Ok(await _userService.AddUser(newUser));
         }
 
         [Authorize]
