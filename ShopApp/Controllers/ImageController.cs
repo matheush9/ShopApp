@@ -46,7 +46,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] string json, [FromForm] IFormFile imageFile)
+        public async Task<ActionResult<GetImageResponseDto>> Add([FromForm] string json, [FromForm] IFormFile imageFile)
         {
             Image? newImage = JsonConvert.DeserializeObject<Image>(json);
 
@@ -76,7 +76,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, AddImageRequestDto newImage)
+        public async Task<ActionResult<GetImageResponseDto>> Update([FromRoute] int id, AddImageRequestDto newImage)
         {
             var getImage = await _imageService.GetById(id);
 

@@ -39,9 +39,8 @@ namespace ShopApp.WebAPI.Controllers
 
         [HttpPost]
         public async Task<ActionResult> AddCategory(AddProductCategoryRequestDTO newCategory)
-        {
-            await _productCategoryService.AddProductCategory(newCategory);
-            return Ok();
+        {            
+            return Ok(await _productCategoryService.AddProductCategory(newCategory));
         }
     }
 }

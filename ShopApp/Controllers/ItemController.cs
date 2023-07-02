@@ -47,8 +47,7 @@ namespace ShopApp.Controllers
             if (await Authorize(newItem) is false)
                 return Forbid();
 
-            await _itemService.Add(newItem);
-            return Ok();
+            return Ok(await _itemService.Add(newItem));
         }
 
         [HttpPost("list")]

@@ -38,8 +38,7 @@ namespace ShopApp.Controllers
             if (await Authorize(newProduct) is false)
                 return Forbid();
 
-            await _productService.Add(newProduct);
-            return Ok();
+            return Ok(await _productService.Add(newProduct));
         }
 
         [Authorize]

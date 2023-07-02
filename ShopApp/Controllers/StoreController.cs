@@ -48,8 +48,7 @@ namespace ShopApp.Controllers
             if (await Authorize(newStore) is false)
                 return Forbid();
 
-            await _storeService.Add(newStore);
-            return Ok();
+            return Ok(await _storeService.Add(newStore));
         }
 
         [Authorize]
