@@ -8,7 +8,7 @@ namespace ShopApp.Application.Services.PrivateKey
 
         private static byte[] GetPrivateKey()
         {
-            return Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_PRIVATE_KEY"));
+            return Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_PRIVATE_KEY") ?? "testejwtkey9090909090909090");
         }
     }
 }
