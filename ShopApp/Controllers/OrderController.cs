@@ -20,7 +20,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
+        public async Task<ActionResult<GetOrderResponseDto>> GetById(int id)
         {
             var order = await _orderService.GetById(id);
 
@@ -31,7 +31,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("customer/{id}")]
-        public async Task<ActionResult> GetOrdersByCustomerId([FromRoute] int id)
+        public async Task<ActionResult<List<GetOrderResponseDto>>> GetOrdersByCustomerId([FromRoute] int id)
         {
             var orders = await _orderService.GetOrdersByCustomerId(id);
 
@@ -42,7 +42,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromBody] AddOrderRequestDto newOrder)
+        public async Task<ActionResult<GetOrderResponseDto>> Add([FromBody] AddOrderRequestDto newOrder)
         {
             if (await Authorize(newOrder) is false)
                 return Forbid();
@@ -68,7 +68,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update([FromRoute] int id, AddOrderRequestDto newOrder)
+        public async Task<ActionResult<GetOrderResponseDto>> Update([FromRoute] int id, AddOrderRequestDto newOrder)
         {
             var getOrder = await _orderService.GetById(id);
 

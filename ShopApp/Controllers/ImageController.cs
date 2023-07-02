@@ -24,7 +24,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<ActionResult<GetImageResponseDto>> GetById([FromRoute] int id)
         {
             var image = await _imageService.GetById(id);
 
@@ -35,7 +35,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("user/{id}")]
-        public async Task<IActionResult> GetImageByUserId([FromRoute] int id)
+        public async Task<ActionResult<GetImageResponseDto>> GetImageByUserId([FromRoute] int id)
         {
             var image = await _imageService.GetImageByUser(id);
 

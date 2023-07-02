@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopApp.Application.DTOs.ProductCategory;
 using ShopApp.Application.Interfaces.ProductCategory;
+using ShopApp.Domain.DTOs.Category;
 
 namespace ShopApp.WebAPI.Controllers
 {
@@ -16,7 +17,7 @@ namespace ShopApp.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetProductCategoryById([FromRoute] int id)
+        public async Task<ActionResult<GetProductCategoryResponseDto>> GetProductCategoryById([FromRoute] int id)
         {
             var productCategory = await _productCategoryService.GetProductCategoryById(id);
 
@@ -27,7 +28,7 @@ namespace ShopApp.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllProductCategories()
+        public async Task<ActionResult<List<GetProductCategoryResponseDto>>> GetAllProductCategories()
         {
             var categories = await _productCategoryService.GetAllProductCategories();
 
@@ -38,7 +39,7 @@ namespace ShopApp.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddCategory(AddProductCategoryRequestDTO newCategory)
+        public async Task<ActionResult<GetProductCategoryResponseDto>> AddCategory(AddProductCategoryRequestDTO newCategory)
         {            
             return Ok(await _productCategoryService.AddProductCategory(newCategory));
         }
