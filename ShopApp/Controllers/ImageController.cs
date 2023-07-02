@@ -72,7 +72,7 @@ namespace ShopApp.Controllers
             if (image is null)
                 return NotFound(image);
 
-            return Ok(image);
+            return Ok();
         }
 
         [HttpPut("{id}")]

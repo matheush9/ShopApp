@@ -52,7 +52,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var getOrder = await _orderService.GetById(id);
 
@@ -64,7 +64,7 @@ namespace ShopApp.Controllers
             if (order is null)
                 return NotFound(order);
 
-            return Ok(order);
+            return Ok();
         }
 
         [HttpPut("{id}")]

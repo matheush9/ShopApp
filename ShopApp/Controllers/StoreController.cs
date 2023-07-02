@@ -53,7 +53,7 @@ namespace ShopApp.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GetStoreResponseDto>> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var getStore = await _storeService.GetById(id);
 
@@ -65,7 +65,7 @@ namespace ShopApp.Controllers
             if (store is null)
                 return NotFound(store);
 
-            return Ok(store);
+            return Ok();
         }
 
         [Authorize]

@@ -36,7 +36,7 @@ namespace ShopApp.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var authenticatedUserId = int.Parse(User.FindFirst("UserId").Value);
 
@@ -48,7 +48,7 @@ namespace ShopApp.Controllers
             if (user is null)
                 return NotFound(user);
 
-            return Ok(user);
+            return Ok();
         }
 
         [Authorize]
