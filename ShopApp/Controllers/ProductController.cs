@@ -98,17 +98,6 @@ namespace ShopApp.Controllers
             return Ok(products);
         }
 
-        [HttpPut("sell/{id}")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> SellProduct([FromRoute] int id)
-        {
-            var products = await _productService.SellProduct(id);
-
-            if (products is null)
-                return NotFound(products);
-
-            return Ok(products);
-        }
-
         [NonAction]
         public async Task<bool> Authorize(BaseStore baseStore)
         {

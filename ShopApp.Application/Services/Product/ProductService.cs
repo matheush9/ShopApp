@@ -45,7 +45,7 @@ namespace ShopApp.Application.Services.ProductServices
 
             var productsQuery = _context.Products
                 .Include(i => i.Images)
-            .Where(p =>
+                .Where(p =>
                 (string.IsNullOrEmpty(productParams.Query)
                     || p.Name.Contains(productParams.Query)
                     || p.Description.Contains(productParams.Query)
@@ -133,19 +133,6 @@ namespace ShopApp.Application.Services.ProductServices
                 product.Price = newProduct.Price;
                 product.Name = newProduct.Name;
 
-                await _context.SaveChangesAsync();
-            }
-
-            return _mapper.Map<GetProductResponseDto>(product);
-        }
-
-        public async Task<GetProductResponseDto> SellProduct(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product != null)
-            {
-                product.SoldAmount++;
                 await _context.SaveChangesAsync();
             }
 
