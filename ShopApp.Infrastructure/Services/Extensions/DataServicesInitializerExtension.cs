@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShopApp.Infrastructure.Data;
+using ShopApp.Infrastructure.Repositories;
+using ShopApp.Infrastructure.Repositories.Abstractions;
 
 namespace ShopApp.Infrastructure.Services.Extensions
 {
@@ -12,6 +14,7 @@ namespace ShopApp.Infrastructure.Services.Extensions
           this IServiceCollection services, IConfiguration configuration)
         {
             RegisterDataContext(services, configuration);
+            RegisterRepositories(services);
             return services;
         }
 
@@ -49,6 +52,21 @@ namespace ShopApp.Infrastructure.Services.Extensions
             } while (!success);
 
             return host;
+        }
+
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();            
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            
+            return services;
         }
     }
 }
