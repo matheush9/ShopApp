@@ -1,33 +1,32 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Interfaces.Customer;
 using ShopApp.Domain.DTOs.Customer;
 using ShopApp.Domain.Entities;
-using ShopApp.Infrastructure.Data;
+using ShopApp.Infrastructure.Repositories.Abstractions;
 
 namespace ShopApp.Application.Services.CustomerServices
 {
     public class CustomerService: ICustomerService
     {
-        private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(DataContext context, IMapper mapper)
+        public CustomerService(IMapper mapper, ICustomerRepository customerRepository)
         {
             _mapper = mapper;
-            _context = context;
+            _customerRepository = customerRepository;
         }
 
         public async Task<GetCustomerResponseDto> GetById(int id)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Id == id);
+            var customer = await _customerRepository.GetByIdAsync(id);
 
             return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
         public async Task<GetCustomerResponseDto> GetCustomerByUserId(int id)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(x => x.UserId == id);
+            var customer = await _customerRepository.GetCustomerByUserId(id);
 
             return _mapper.Map<GetCustomerResponseDto>(customer);
         }
@@ -35,34 +34,30 @@ namespace ShopApp.Application.Services.CustomerServices
         public async Task<GetCustomerResponseDto> Add(AddCustomerRequestDto newCustomer)
         {
             var customer = _mapper.Map<Customer>(newCustomer);
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            await _customerRepository.AddAsync(customer);
 
             return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
         public async Task<GetCustomerResponseDto> Delete(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _customerRepository.GetByIdAsync(id);
 
             if (customer != null)
-            {
-                _context.Customers.Remove(customer);
-                await _context.SaveChangesAsync();
-            }
+                await _customerRepository.DeleteAsync(customer);
 
             return _mapper.Map<GetCustomerResponseDto>(customer);
         }
 
         public async Task<GetCustomerResponseDto> Update(int id, AddCustomerRequestDto newCustomer)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _customerRepository.GetByIdAsync(id);
 
             if (customer != null)
             {
                 customer.Name = newCustomer.Name;
 
-                await _context.SaveChangesAsync();
+                await _customerRepository.UpdateAsync(customer);
             }
 
             return _mapper.Map<GetCustomerResponseDto>(customer);
