@@ -1,78 +1,54 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Application.Interfaces.Stock;
 using ShopApp.Application.ResponseWrappers;
 using ShopApp.Domain.DTOs.Products;
 using ShopApp.Domain.Entities;
-using ShopApp.Infrastructure.Data;
+using ShopApp.Infrastructure.Repositories.Abstractions;
 
 namespace ShopApp.Application.Services.ProductServices
 {
     public class ProductService : IProductService
     {
-        private readonly DataContext _context;
         private readonly IMapper _mapper;
         private readonly IStockService _stockService;
+        private readonly IStoreRepository _storeRepository;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(DataContext context, IMapper mapper, IStockService stockService)
+        public ProductService(IMapper mapper, IStockService stockService, IProductRepository productRepository, IStoreRepository storeRepository)
         {
             _mapper = mapper;
-            _context = context;
             _stockService = stockService;
+            _productRepository = productRepository;
+            _storeRepository = storeRepository;
         }
 
         public async Task<GetProductResponseDto> GetById(int id)
         {
-            var product = await _context.Products.Include(i => i.Images).FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _productRepository.GetByIdAsync(id);
 
             return _mapper.Map<GetProductResponseDto>(product);
         }
 
-        public async Task<PagedResponse<List<GetProductResponseDto>>> Filter(ProductQueryParamsResponseDto productParams, PaginationFilter paginationFilter)
+        public async Task<PagedResponse<List<GetProductResponseDto>>> Filter(ProductFilter productParams, PaginationFilter paginationFilter)
         {
-            var pagFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
-
             decimal minPrice = new();
             decimal maxPrice = new();
 
             if (productParams.PriceRange != null)
             {
-                minPrice = decimal.Parse(productParams.PriceRange.Split('.')[0]);
-                maxPrice = decimal.Parse(productParams.PriceRange.Split('.')[1]);
+                var priceRangeParts = productParams.PriceRange.Split('.');
+                minPrice = decimal.Parse(priceRangeParts[0]);
+                maxPrice = decimal.Parse(priceRangeParts[1]);
             }
 
-            var productsQuery = _context.Products
-                .Include(i => i.Images)
-                .Where(p =>
-                (string.IsNullOrEmpty(productParams.Query)
-                    || p.Name.Contains(productParams.Query)
-                    || p.Description.Contains(productParams.Query)
-                    || p.Store.Name.Contains(productParams.Query))
-                && (productParams.CategoryId == null || p.ProductCategoryId == productParams.CategoryId)
-                && (productParams.StoreId == null || p.StoreId == productParams.StoreId)
-                && (String.IsNullOrEmpty(productParams.PriceRange) || p.Price >= minPrice && p.Price <= maxPrice)
-            );
+            var productsPaginated = await _productRepository.Filter(productParams, paginationFilter, minPrice, maxPrice);
+            productsPaginated = Order(productsPaginated, productParams.Sort);
 
-            var productsPaginated = productsQuery.Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
-                .Take(pagFilter.PageSize).ToList();
+            var productsDTO = _mapper.Map<List<GetProductResponseDto>>(productsPaginated);
 
-            var products = await productsQuery.ToListAsync();
-            products = productsPaginated;
-
-            if (productParams.Query == string.Empty && productParams.CategoryId == null && productParams.StoreId == null)
-            {
-                products = await _context.Products.Include(p => p.Store)
-                                    .Skip((pagFilter.PageNumber - 1) * pagFilter.PageSize)
-                                    .Take(pagFilter.PageSize).ToListAsync();
-            }
-
-            products = Order(products, productParams.Sort);
-
-            var productsDTO = _mapper.Map<List<GetProductResponseDto>>(products);
-
-            return new PagedResponse<List<GetProductResponseDto>>(productsDTO, pagFilter.PageNumber, pagFilter.PageSize, productsQuery.Count());
+            return new PagedResponse<List<GetProductResponseDto>>(productsDTO, paginationFilter.PageNumber, paginationFilter.PageSize, productsPaginated.Count);
         }
 
         public List<Product> Order(List<Product> products, string sort)
@@ -96,13 +72,10 @@ namespace ShopApp.Application.Services.ProductServices
         public async Task<GetProductResponseDto> Add(AddProductRequestDto newProduct)
         {
             var product = _mapper.Map<Product>(newProduct);
-            _context.Products.Add(product);
+            await _productRepository.AddAsync(product);
 
-            var store = await _context.Stores.FindAsync(product.StoreId);
+            var store = await _storeRepository.GetByIdAsync(product.StoreId);
             store.ProductCatalogCount++;
-
-            await _context.SaveChangesAsync();
-
             await _stockService.AddStock(product.Id, product.StoreId);
 
             return _mapper.Map<GetProductResponseDto>(product);
@@ -110,14 +83,14 @@ namespace ShopApp.Application.Services.ProductServices
 
         public async Task<GetProductResponseDto> Delete(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productRepository.GetByIdAsync(id);
 
             if (product != null)
             {
-                _context.Products.Remove(product);
-                var store = await _context.Stores.FindAsync(product.StoreId);
+                await _productRepository.DeleteAsync(product);
+                var store = await _storeRepository.GetByIdAsync(product.StoreId);
                 store.ProductCatalogCount--;
-                await _context.SaveChangesAsync();
+                await _storeRepository.UpdateAsync(store);
             }
 
             return _mapper.Map<GetProductResponseDto>(product);
@@ -125,7 +98,7 @@ namespace ShopApp.Application.Services.ProductServices
 
         public async Task<GetProductResponseDto> Update(int id, AddProductRequestDto newProduct)
         {
-            var product = await _context.Products.Include(i => i.Images).FirstAsync(p => p.Id == id);
+            var product = await _productRepository.GetByIdAsync(id);
 
             if (product != null)
             {
@@ -133,7 +106,7 @@ namespace ShopApp.Application.Services.ProductServices
                 product.Price = newProduct.Price;
                 product.Name = newProduct.Name;
 
-                await _context.SaveChangesAsync();
+                await _productRepository.UpdateAsync(product);
             }
 
             return _mapper.Map<GetProductResponseDto>(product);
@@ -141,15 +114,13 @@ namespace ShopApp.Application.Services.ProductServices
 
         public async Task<List<GetProductResponseDto>> GetProductsByIdsList(List<int> idList)
         {
-            var products = new List<Product>();
-
             if (idList != null && idList.Count > 0)
             {
-                products = await _context.Products.Where(p => idList.Contains(p.Id)).Include(i => i.Images).ToListAsync();
-                products = products.OrderBy(p => idList.IndexOf(p.Id)).ToList();
+                var products = await _productRepository.GetProductsByIdsList(idList);
+                return _mapper.Map<List<GetProductResponseDto>>(products);
             }
 
-            return _mapper.Map<List<GetProductResponseDto>>(products);
+            return new List<GetProductResponseDto>();
         }
     }
 }

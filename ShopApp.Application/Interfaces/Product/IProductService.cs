@@ -12,7 +12,7 @@ namespace ShopApp.Application.Interfaces.ProductService
         Task<GetProductResponseDto> Add(AddProductRequestDto newProduct);
         Task<GetProductResponseDto> Delete(int id);
         Task<GetProductResponseDto> Update(int id, AddProductRequestDto newProduct);
-        Task<PagedResponse<List<GetProductResponseDto>>> Filter(ProductQueryParamsResponseDto productParams, PaginationFilter paginationFilter);
+        Task<PagedResponse<List<GetProductResponseDto>>> Filter(ProductFilter productParams, PaginationFilter paginationFilter);
         List<Product> Order(List<Product> products, string sort);
         Task<List<GetProductResponseDto>> GetProductsByIdsList(List<int> idList);
     }

@@ -87,7 +87,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductQueryParamsResponseDto productParams,
+        public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductFilter productParams,
             [FromQuery] PaginationFilter paginationFilter)
         {
             var products = await _productService.Filter(productParams, paginationFilter);

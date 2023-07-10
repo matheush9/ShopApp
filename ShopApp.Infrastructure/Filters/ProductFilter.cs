@@ -1,6 +1,6 @@
-﻿namespace ShopApp.Domain.DTOs.Products
+﻿namespace ShopApp.Application.Filters
 {
-    public class ProductQueryParamsResponseDto
+    public class ProductFilter
     {
         public string Query { get; set; } = string.Empty;
         public int? CategoryId { get; set; }
