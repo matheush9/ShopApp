@@ -16,7 +16,7 @@ namespace ShopApp.Infrastructure.Repositories
             return await _dbset.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User> GetUserById(int id)
+        public new async Task<User> GetByIdAsync(int id)
         {
             return await _dbset
               .Include(i => i.Images)
