@@ -105,6 +105,7 @@ namespace ShopApp.Application.Services.ProductServices
                 product.Description = newProduct.Description;
                 product.Price = newProduct.Price;
                 product.Name = newProduct.Name;
+                product.ProductCategoryId = newProduct.ProductCategoryId;
 
                 await _productRepository.UpdateAsync(product);
             }
