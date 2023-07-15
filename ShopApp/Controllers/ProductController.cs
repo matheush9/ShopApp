@@ -90,7 +90,9 @@ namespace ShopApp.Controllers
         public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductFilter productParams,
             [FromQuery] PaginationFilter paginationFilter)
         {
-            var products = await _productService.Filter(productParams, paginationFilter);
+            PaginationFilter newPaginationFilter  = new(paginationFilter.PageNumber, paginationFilter.PageSize);
+
+            var products = await _productService.Filter(productParams, newPaginationFilter);
 
             if (products is null)
                 return NotFound(products);
