@@ -26,11 +26,13 @@ namespace ShopApp.Controllers
 
             return Ok(user);
         }
-
         
         [HttpPost]
         public async Task<ActionResult<GetUserResponseDto>> Add([FromBody] AddUserRequestDto newUser)
         {
+            if (await _userService.EmailAlreadyExists(newUser.Email))
+                return UnprocessableEntity("Email already in use");
+
             return Ok(await _userService.AddUser(newUser));
         }
 

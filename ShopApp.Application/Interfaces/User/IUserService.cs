@@ -9,6 +9,7 @@ namespace ShopApp.Application.Interfaces.User
         Task<GetUserResponseDto> AddUser(AddUserRequestDto newUser);
         Task<GetUserResponseDto> DeleteUser(int id);
         Task<GetUserResponseDto> UpdateUser(int id, EditUserRequestDto newUser);
+        Task<bool> EmailAlreadyExists(string email);
         Task<JwtTokenResponseDto> Authenticate(AddUserRequestDto userRequest);
     }
 }

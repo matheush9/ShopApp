@@ -62,6 +62,11 @@ namespace ShopApp.Application.Services.UserServices
             return _mapper.Map<GetUserResponseDto>(user);
         }
 
+        public async Task<bool> EmailAlreadyExists(string email)
+        {
+            return await _userRepository.GetUserByEmail(email) is not null;
+        }
+
         public async Task<JwtTokenResponseDto> Authenticate(AddUserRequestDto userRequest)
         {
             var user = await _userRepository.GetUserByEmail(userRequest.Email);
