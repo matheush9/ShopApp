@@ -8,10 +8,10 @@ services:
     environment: 
       JWT_PRIVATE_KEY: ${ENV_JWT_PKEY}
     volumes:
-      - ./ShopApp/wwwroot:/app/wwwroot
+      - ./src/ShopApp/wwwroot:/app/wwwroot
     build:
       context: .
-      dockerfile: ShopApp/Dockerfile
+      dockerfile: src/ShopApp/Dockerfile
     depends_on:
       - db
   db:
