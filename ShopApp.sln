@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
@@ -12,6 +12,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopApp.Infrastructure", "src\ShopApp.Infrastructure\ShopApp.Infrastructure.csproj", "{7D9327CE-0887-4D89-9AFF-68195D3DF8D7}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7118495C-3FBE-4D2D-8774-9E5C5637A32A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CFDB39B2-8856-468E-BBFC-6F737DCD8248}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BFB9F07-5D43-43CC-A406-1B2942B5AF63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopApp.Tests", "tests\ShopApp.Tests\ShopApp.Tests.csproj", "{E2C67659-3064-4ECD-B70A-4BBD24D8A89C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
