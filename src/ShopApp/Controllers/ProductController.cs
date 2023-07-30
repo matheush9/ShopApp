@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopApp.Application.Filters;
 using ShopApp.Application.Interfaces.ProductService;
 using ShopApp.Domain.Common;
-using ShopApp.Domain.DTOs.Image;
 using ShopApp.Domain.DTOs.Products;
 
 namespace ShopApp.Controllers
@@ -101,7 +100,7 @@ namespace ShopApp.Controllers
         }
 
         [NonAction]
-        public async Task<bool> Authorize(BaseStore baseStore)
+        private async Task<bool> Authorize(BaseStore baseStore)
         {
             var authorizationResult = await _authorizationService.AuthorizeAsync(User, baseStore, "StorePolicy");
 

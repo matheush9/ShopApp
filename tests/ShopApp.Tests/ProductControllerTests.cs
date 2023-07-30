@@ -6,6 +6,7 @@ using AutoFixture;
 using ShopApp.Domain.DTOs.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ShopApp.Tests
 {
@@ -27,13 +28,14 @@ namespace ShopApp.Tests
         }
 
         [Test]
-        public async Task Get_ProductById_ReturnOk()
+        public async Task GetProductById_ReturnOk()
         {
             //Arrange
             var expectedProductResponseDTO = _fixture.Create<GetProductResponseDto>();
             var productId = 1;
 
-            _productServiceMock.Setup(service => service.GetById(productId)).ReturnsAsync(expectedProductResponseDTO);
+            _productServiceMock.Setup(service => service.GetById(productId))
+                .ReturnsAsync(expectedProductResponseDTO);
 
             //Act
             var actionResult = await _productController.GetById(productId);
@@ -45,17 +47,53 @@ namespace ShopApp.Tests
         }
 
         [Test]
-        public async Task Get_ProductById_NonExistent_ReturnNotFound()
+        public async Task GetProductById_NonExistent_ReturnNotFound()
         {
             //Arrange
             var nonExistentProductId = 99;
-            _productServiceMock.Setup(service => service.GetById(nonExistentProductId)).ReturnsAsync(null as GetProductResponseDto);
+            _productServiceMock.Setup(service => service.GetById(nonExistentProductId))
+                .ReturnsAsync(null as GetProductResponseDto);
 
             //Act
             var actionResult = await _productController.GetById(nonExistentProductId);
 
             //Assert
             Assert.IsInstanceOf<NotFoundObjectResult>(actionResult.Result);
-        } 
+        }
+
+        [Test]
+        public async Task AddProduct_UserAuthorized_ReturnOk() 
+        {
+            //Arrange
+            _authorizationServiceMock.Setup(service => service.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AddProductRequestDto>(), "StorePolicy"))
+                .ReturnsAsync(AuthorizationResult.Success());
+            _productServiceMock.Setup(service => service.Add(It.IsAny<AddProductRequestDto>()))
+                .ReturnsAsync(It.IsAny<GetProductResponseDto>());
+
+            //Act
+            var actionResult = await _productController.Add(It.IsAny<AddProductRequestDto>());
+
+            //Assert
+            var okResult = (OkObjectResult)actionResult.Result;
+            Assert.IsInstanceOf<OkObjectResult>(okResult);
+            Assert.AreEqual(It.IsAny<GetProductResponseDto>(), okResult.Value);
+        }
+
+        [Test]
+        public async Task AddProduct_UserUnauthorized_ReturnForbid()
+        {
+            //Arrange
+            _authorizationServiceMock.Setup(service => service.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AddProductRequestDto>(), "StorePolicy"))
+                .ReturnsAsync(AuthorizationResult.Failed());
+            _productServiceMock.Setup(service => service.Add(It.IsAny<AddProductRequestDto>()))
+                .ReturnsAsync(It.IsAny<GetProductResponseDto>());
+
+            //Act
+            var actionResult = await _productController.Add(It.IsAny<AddProductRequestDto>());
+
+            //Assert
+            var forbidResult = actionResult.Result;
+            Assert.IsInstanceOf<ForbidResult>(actionResult.Result);
+        }
     }
 }
