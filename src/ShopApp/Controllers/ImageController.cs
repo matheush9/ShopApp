@@ -64,13 +64,13 @@ namespace ShopApp.Controllers
         {
             var getImage = await _imageService.GetById(id);
 
+            if (getImage is null)
+                return NotFound(getImage);
+
             if (await Authorize(getImage) is false)
                 return Forbid();
 
             var image = await _imageService.Delete(id);
-
-            if (image is null)
-                return NotFound(image);
 
             return Ok();
         }
@@ -80,13 +80,13 @@ namespace ShopApp.Controllers
         {
             var getImage = await _imageService.GetById(id);
 
+            if (getImage is null)
+                return NotFound(getImage);
+
             if (await Authorize(getImage) is false)
                 return Forbid();
 
             var image = await _imageService.Update(id, newImage);
-
-            if (image is null)
-                return NotFound(image);
 
             return Ok(image);
         }

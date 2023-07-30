@@ -68,13 +68,13 @@ namespace ShopApp.Controllers
         {
             var getItem = await _itemService.GetById(id);
 
+            if (getItem is null)
+                return NotFound(getItem);
+
             if (await Authorize(getItem) is false)
                 return Forbid();
 
             var item = await _itemService.Delete(id);
-
-            if (item is null)
-                return NotFound(item);
 
             return Ok();
         }
@@ -85,13 +85,13 @@ namespace ShopApp.Controllers
         {
             var getItem = await _itemService.GetById(id);
 
+            if (getItem is null)
+                return NotFound(getItem);
+
             if (await Authorize(getItem) is false)
                 return Forbid();
 
             var item = await _itemService.Update(id, newItem);
-
-            if (item is null)
-                return NotFound(item);
 
             return Ok(item);
         }

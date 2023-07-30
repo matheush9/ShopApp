@@ -56,13 +56,13 @@ namespace ShopApp.Controllers
         {
             var getOrder = await _orderService.GetById(id);
 
+            if (getOrder is null)
+                return NotFound(getOrder);
+
             if (await Authorize(getOrder) is false)
                 return Forbid();
 
             var order = await _orderService.Delete(id);
-
-            if (order is null)
-                return NotFound(order);
 
             return Ok();
         }
@@ -72,13 +72,13 @@ namespace ShopApp.Controllers
         {
             var getOrder = await _orderService.GetById(id);
 
+            if (getOrder is null)
+                return NotFound(getOrder);
+
             if (await Authorize(getOrder) is false)
                 return Forbid();
 
             var order = await _orderService.Update(id, newOrder);
-
-            if (order is null)
-                return NotFound(order);
 
             return Ok(order);
         }

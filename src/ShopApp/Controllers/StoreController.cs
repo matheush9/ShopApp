@@ -57,13 +57,13 @@ namespace ShopApp.Controllers
         {
             var getStore = await _storeService.GetById(id);
 
+            if (getStore is null)
+                return NotFound(getStore);
+
             if (await Authorize(getStore) is false)
                 return Forbid();
 
             var store = await _storeService.Delete(id);
-
-            if (store is null)
-                return NotFound(store);
 
             return Ok();
         }
@@ -74,13 +74,13 @@ namespace ShopApp.Controllers
         {
             var getStore = await _storeService.GetById(id);
 
+            if (getStore is null)
+                return NotFound(getStore);
+
             if (await Authorize(getStore) is false)
                 return Forbid();
 
             var store = await _storeService.Update(id, newStore);
-
-            if (store is null)
-                return NotFound(store);
 
             return Ok(store);
         }

@@ -46,13 +46,13 @@ namespace ShopApp.Controllers
         {
             var getProduct = await _productService.GetById(id);
 
+            if (getProduct is null)
+                return NotFound(getProduct);
+
             if (await Authorize(getProduct) is false)
                 return Forbid();
 
             var product = await _productService.Delete(id);
-
-            if (product is null)
-                return NotFound(product);
 
             return Ok();
         }
@@ -63,13 +63,13 @@ namespace ShopApp.Controllers
         {
             var getProduct = await _productService.GetById(id);
 
+            if (getProduct is null)
+                return NotFound(getProduct);
+
             if (await Authorize(getProduct) is false)
                 return Forbid();
 
             var product = await _productService.Update(id, newProduct);
-
-            if (product is null)
-                return NotFound(product);
 
             return Ok(product);
         }
@@ -89,7 +89,7 @@ namespace ShopApp.Controllers
         public async Task<ActionResult<List<GetProductResponseDto>>> Filter([FromQuery] ProductFilter productParams,
             [FromQuery] PaginationFilter paginationFilter)
         {
-            PaginationFilter newPaginationFilter  = new(paginationFilter.PageNumber, paginationFilter.PageSize);
+            PaginationFilter newPaginationFilter = new(paginationFilter.PageNumber, paginationFilter.PageSize);
 
             var products = await _productService.Filter(productParams, newPaginationFilter);
 

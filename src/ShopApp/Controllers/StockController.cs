@@ -47,13 +47,13 @@ namespace ShopApp.Controllers
         {
             var getStock = await _stockService.GetStock(id);
 
+            if (getStock is null)
+                return NotFound(getStock);
+
             if (await Authorize(getStock) is false)
                 return Forbid();
 
             var stock = await _stockService.UpdateStockByProductId(id, newStock);
-
-            if (stock is null)
-                return NotFound(stock);
 
             return Ok(stock);
         }

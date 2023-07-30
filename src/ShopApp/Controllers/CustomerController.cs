@@ -57,13 +57,13 @@ namespace ShopApp.Controllers
         {            
             var getCustomer = await _customerService.GetById(id);
 
+            if (getCustomer is null)
+                return NotFound();
+
             if (await Authorize(getCustomer) is false)
                 return Forbid();
 
             var customer = await _customerService.Delete(id);
-
-            if (customer is null)
-                return NotFound();
 
             return Ok();
         }
@@ -73,14 +73,14 @@ namespace ShopApp.Controllers
         public async Task<ActionResult<GetCustomerResponseDto>> Update([FromRoute] int id, AddCustomerRequestDto newCustomer)
         {
             var getCustomer = await _customerService.GetById(id);
-            
+
+            if (getCustomer is null)
+                return NotFound(getCustomer);
+
             if (await Authorize(getCustomer) is false) 
                 return Forbid();
 
             var customer = await _customerService.Update(id, newCustomer);
-
-            if (customer is null)
-                return NotFound(customer);
 
             return Ok(customer);
         }
