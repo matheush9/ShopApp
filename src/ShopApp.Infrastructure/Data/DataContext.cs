@@ -21,9 +21,13 @@ namespace ShopApp.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>()
-                .HasMany(i => i.Items)
-                .WithOne(p => p.Product);
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasMany(i => i.Items)
+                    .WithOne(p => p.Product);
+                entity.HasIndex(n => n.Name);
+                entity.HasIndex(d => d.Description);
+            });
 
             modelBuilder.Entity<Order>()
                 .HasMany(i => i.Items)
