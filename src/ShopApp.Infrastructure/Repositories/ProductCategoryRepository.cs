@@ -13,7 +13,7 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<List<ProductCategory>> GetAllProductCategories()
         {
-            return await _dbset.ToListAsync();
+            return await _dbset.AsNoTracking().ToListAsync();
         }
 
     }

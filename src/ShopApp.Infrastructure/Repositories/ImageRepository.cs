@@ -13,7 +13,7 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<Image> GetImageByUser(int id)
         {
-            return await _dbset.FirstOrDefaultAsync(i => i.UserId == id);
+            return await _dbset.AsNoTracking().FirstOrDefaultAsync(i => i.UserId == id);
         }
     }
 }

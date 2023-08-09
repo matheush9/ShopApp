@@ -14,20 +14,21 @@ namespace ShopApp.Infrastructure.Repositories
 
         public new async Task<Product> GetByIdAsync(int id)
         {
-            return await _dbset.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbset.AsNoTracking().Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsByIdsList(List<int> idList)
         {
             var products = new List<Product>();
 
-            products = await _dbset.Where(p => idList.Contains(p.Id)).Include(i => i.Images).ToListAsync();
+            products = await _dbset.AsNoTracking().Where(p => idList.Contains(p.Id)).Include(i => i.Images).ToListAsync();
             return products.OrderBy(p => idList.IndexOf(p.Id)).ToList();
         }
 
         public async Task<List<Product>> Filter(ProductFilter productParams, PaginationFilter paginationFilter, decimal minPrice, decimal maxPrice)
         {
             var productsQuery = _context.Products
+                .AsNoTracking()
                 .Include(i => i.Images)
                 .Include(s => s.Store)
                 .Where(p =>

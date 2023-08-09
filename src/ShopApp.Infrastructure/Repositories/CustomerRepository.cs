@@ -13,7 +13,7 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<Customer> GetCustomerByUserId(int id)
         {
-            return await _dbset.FirstOrDefaultAsync(x => x.UserId == id);
+            return await _dbset.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == id);
         }
     }
 }

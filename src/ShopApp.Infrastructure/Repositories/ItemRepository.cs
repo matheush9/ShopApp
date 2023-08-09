@@ -13,7 +13,7 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<List<Item>> GetItemsByOrderId(int id)
         {
-            return await _dbset.Where(i => i.OrderId == id).ToListAsync();
+            return await _dbset.AsNoTracking().Where(i => i.OrderId == id).ToListAsync();
         }
 
         public async Task<List<Item>> AddItemsList(List<Item> itemsList)

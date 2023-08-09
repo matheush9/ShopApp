@@ -13,12 +13,13 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _dbset.FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbset.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public new async Task<User> GetByIdAsync(int id)
         {
             return await _dbset
+              .AsNoTracking()
               .Include(i => i.Images)
               .Include(s => s.Store)
               .Include(c => c.Customer)

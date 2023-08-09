@@ -14,7 +14,7 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<List<Store>> GetAll()
         {
-            return await _dbset.ToListAsync();
+            return await _dbset.AsNoTracking().ToListAsync();
         }
 
         public async Task<Store> GetStoreByUserId(int userId)

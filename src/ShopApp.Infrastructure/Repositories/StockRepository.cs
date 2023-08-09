@@ -13,12 +13,12 @@ namespace ShopApp.Infrastructure.Repositories
 
         public async Task<List<Stock>> GetAllStocksByStoreId(int id)
         {
-            return await _dbset.Where(s => s.StoreId == id).ToListAsync();
+            return await _dbset.AsNoTracking().Where(s => s.StoreId == id).ToListAsync();
         }
 
         public async Task<Stock> GetStockByProductId(int id)
         {
-            return await _dbset.FirstOrDefaultAsync(x => x.ProductId == id); 
+            return await _dbset.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == id); 
         }
     }
 }
