@@ -9,4 +9,4 @@ docker-compose -f docker-compose.yml up --build
 
 # Acess the Online API Documentation:
 go to: 
-[Api Doc (Swagger)](http://154.41.228.116:8001/swagger/index.html)
+[Api Doc (Swagger)](http://191.252.205.94:8001/swagger/index.html)
