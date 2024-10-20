@@ -3,11 +3,11 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["ShopApp/ShopApp.WebAPI.csproj", "ShopApp/"]
-COPY ["ShopApp.Application/ShopApp.Application.csproj", "ShopApp.Application/"]
-COPY ["ShopApp.Domain/ShopApp.Domain.csproj", "ShopApp.Domain/"]
-COPY ["ShopApp.Infrastructure/ShopApp.Infrastructure.csproj", "ShopApp.Infrastructure/"]
+
+COPY ["src/ShopApp/ShopApp.WebAPI.csproj", "ShopApp/"]
+COPY ["src/ShopApp.Application/ShopApp.Application.csproj", "ShopApp.Application/"]
+COPY ["src/ShopApp.Domain/ShopApp.Domain.csproj", "ShopApp.Domain/"]
+COPY ["src/ShopApp.Infrastructure/ShopApp.Infrastructure.csproj", "ShopApp.Infrastructure/"]
 RUN dotnet restore "ShopApp/ShopApp.WebAPI.csproj"
 COPY . .
 WORKDIR "/src/ShopApp"
