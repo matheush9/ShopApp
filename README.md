@@ -29,12 +29,15 @@ Pode optar por qualquer uma das duas opções abaixo:
 ![Screenshot 2024-10-20 174023](https://github.com/user-attachments/assets/95c0c9ff-5731-4976-940b-23c44d7e464a)
 
 
-- Use esse comando na pasta raiz para orquestrar e iniciar o ms sql server e api juntos:
+- Use esse comando na pasta raiz para orquestrar e iniciar o MS SQL Server e api juntos:
 ```bash
 docker-compose up --build
 ``````
 
 
-<h2 id="routes">📍 API Endpoints</h2>
+<h2 id="routes">📍 API Endpoints </h2>
 
-Assim que o projeto estiver no ar, ele vai estar aberto na porta 8001, assim podendo acessar aqui a documentação swagger.
+Assim que o projeto estiver no ar, ele vai estar aberto na porta 8001, assim podendo acessar [aqui a documentação Swagger](http://localhost:8001/swagger/index.html).
+
+![image](https://github.com/user-attachments/assets/967e78d5-ef5b-49cc-b60f-8efa6e7c9563)
+
