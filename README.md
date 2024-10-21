@@ -1,10 +1,14 @@
-
 [NET]:https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white
+[MSSQL]:https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white
+[Docker]:https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[C#]:https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white
 
 <h1 align="center" style="font-weight: bold;">ShopApp 💻🛒 </h1>
 
 ![.Net][NET]
-
+![Docker][Docker]
+![C#][C#]
+![MicrosoftSQLServer][MSSQL]
 
 <h2 id="about">❓ About </h2> 
 <p>Este projeto foi desenvolvido com o objetivo de praticar e aprimorar minhas habilidades no desenvolvimento de back-end web, utilizando as tecnologias mencionadas.</p> 
