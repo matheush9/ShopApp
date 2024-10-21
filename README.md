@@ -10,6 +10,12 @@
 ![C#][C#]
 ![MicrosoftSQLServer][MSSQL]
 
+<p align="center">
+ <a href="#about">About</a> • 
+ <a href="#started">Getting Started</a> • 
+ <a href="#routes">App Routes</a>
+</p>
+
 <h2 id="about">❓ About </h2> 
 <p>Este projeto foi desenvolvido com o objetivo de praticar e aprimorar minhas habilidades no desenvolvimento de back-end web, utilizando as tecnologias mencionadas.</p> 
 <p>A aplicação simula uma plataforma fictícia onde é possível cadastrar lojas e compradores, além de realizar buscas, cadastrar e comprar produtos. Os usuários também podem visualizar seus pedidos e gerenciar seus inventários.</p>
